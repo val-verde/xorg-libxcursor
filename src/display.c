@@ -1,5 +1,5 @@
 /*
- * $XFree86: xc/lib/Xcursor/display.c,v 1.6 2003/02/20 03:13:50 dawes Exp $
+ * $XFree86$
  *
  * Copyright © 2002 Keith Packard, member of The XFree86 Project, Inc.
  *
