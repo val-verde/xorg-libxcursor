@@ -1,5 +1,5 @@
 /*
- * $XFree86: xc/lib/Xcursor/library.c,v 1.4 2003/11/11 01:17:54 dawes Exp $
+ * $XFree86: xc/lib/Xcursor/library.c,v 1.3 2003/11/07 17:56:02 dawes Exp $
  *
  * Copyright © 2002 Keith Packard, member of The XFree86 Project, Inc.
  *

@@ -1,5 +1,5 @@
 /*
- * $XFree86: xc/lib/Xcursor/file.c,v 1.2 2002/09/18 17:11:42 tsi Exp $
+ * $XFree86: xc/lib/Xcursor/file.c,v 1.1tsi Exp $
  *
  * Copyright © 2002 Keith Packard, member of The XFree86 Project, Inc.
  *
