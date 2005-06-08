@@ -57,84 +57,11 @@ AC_PROG_CC
 AC_PROG_LIBTOOL
 
 # Check for X
-PKG_CHECK_MODULES(X, x11, 
-		  [x_found_with_pkgconfig=yes],
-		  [x_found_with_pkgconfig=no])
-		  
-if test "$x_found_with_pkgconfig" = "no"
-then
-	AC_PATH_XTRA
-	X_LIBS="$X_LIBS -lX11"
-
-	if test "x$no_x" = "xyes"
-	then
-	        AC_MSG_ERROR([X is required, but it was either disabled or not found.])
-	fi
-	# Check for XTHREADS
-	
-	save_LIBS="$LIBS"
-	save_CFLAGS="$CFLAGS"
-	CFLAGS="$CFLAGS $X_CFLAGS"
-	LIBS="$LIBS $X_LIBS"
-	
-	AC_MSG_CHECKING([for XTHREADS in Xlib])
-	AC_RUN_IFELSE(
-		      [AC_LANG_PROGRAM([[#include <X11/Xlib.h>]],
-			[[return XInitThreads() == 0 ? 0 : 1;]])],
-			[xthreads=no],
-		[xthreads=yes],
-		[xthreads=yes])
-	
-	AC_MSG_RESULT($xthreads)
-	
-	LIBS="$save_LIBS"
-	CFLAGS="$save_CFLAGS"
-	
-	if test "x$xthreads" = "xyes"
-	then
-		X_CFLAGS="$X_CFLAGS -DXTHREADS"
-	fi
-
-	if test "x$no_x" = "xyes"
-	then
-	        AC_MSG_ERROR([X is required, but it was either disabled or not found.])
-	fi
-fi
+PKG_CHECK_MODULES(XRENDER, x11 xrender >= 0.8.2)
+PKG_CHECK_MODULES(XFIXES, xfixes, [AC_DEFINE_UNQUOTED(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])])
 
 AC_SUBST(X_CFLAGS)
 AC_SUBST(X_LIBS)
-
-PKG_CHECK_MODULES(XRENDER, xrender >= 0.8.2, [xrender_found_with_pkgconfig=yes], 
-                  [xrender_found_with_pkgconfig=no])
-case "$xrender_found_with_pkgconfig" in
-no)
-	PKG_CHECK_MODULES(XRENDER, xrender >= 0.8, [old_xrender_found_with_pkgconfig=yes], 
-			  [old_xrender_found_with_pkgconfig=no])
-	case "$old_xrender_found_with_pkgconfig" in
-	no)
-	        # checks for X
-	        AC_PATH_X
-
-	        XRENDER_CFLAGS="-I$x_includes"
-	        XRENDER_LIBS="-L$x_libraries -lXrender -lXext -lX11"
-
-	        saved_CPPFLAGS="$CPPFLAGS"
-	        CPPFLAGS="$CPPFLAGS $XRENDER_CFLAGS"
-	        AC_CHECK_HEADERS([X11/extensions/Xrender.h], [], [AC_MSG_ERROR([Xrender.h not found.])])
-	        CPPFLAGS="$saved_CPPFLAGS"
-
-	        saved_LIBS="$LIBS"
-	        LIBS="$LIBS $XRENDER_LIBS"
-	        AC_CHECK_FUNCS([XRenderCreateAnimCursor], [], [AC_MSG_ERROR([libXrender not found.])])
-	        LIBS="$saved_LIBS"
-		;;
-	yes)
-		XRENDER_LIBS="$XRENDER_LIBS -lXext -lX11"
-		;;
-	esac
-        ;;
-esac
-PKG_CHECK_MODULES(XFIXES, xfixes, [AC_DEFINE_UNQUOTED(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])])
 
 AC_SUBST(XRENDER_LIBS)
 AC_SUBST(XRENDER_CFLAGS)

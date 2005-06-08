@@ -1,3 +1,3 @@
-man_MANS = Xcursor.3
+man_MANS = Xcursor.4x
 
 EXTRA_DIST = $(man_MANS)

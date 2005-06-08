@@ -1,3 +1,7 @@
+Wed Jun  8 16:43:45 2005  Søren Sandmann  <sandmann@redhat.com>
+
+	* configure.ac: Remove all the "not found with pkgconfig" stuff 
+
 Tue Feb  8 14:26:32 2005  Owen Taylor  <otaylor@redhat.com>
 
 	* configure.ac: Remove AC_CONFIG_AUX_DIR()
