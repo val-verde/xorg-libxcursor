@@ -711,6 +711,7 @@ XcursorImagesLoadCursor (Display *dpy, const XcursorImages *images)
 	    anim[n].delay = images->images[n]->delay;
 	}
 	cursor = XRenderCreateAnimCursor (dpy, cursors->ncursor, anim);
+	XcursorCursorsDestroy(cursors);
 	free (anim);
     }
 #if defined HAVE_XFIXES && XFIXES_MAJOR >= 2
