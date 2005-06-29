@@ -1,4 +1,5 @@
 /*
+ * $Id$
  *
  * Copyright © 2002 Keith Packard
  *
@@ -80,6 +81,9 @@ _XcursorBuildThemeDir (const char *dir, const char *theme)
     int		    themelen;
     int		    len;
 
+    if (!dir || !theme)
+        return NULL;
+    
     colon = strchr (dir, ':');
     if (!colon)
 	colon = dir + strlen (dir);
@@ -127,6 +131,9 @@ _XcursorBuildFullname (const char *dir, const char *subdir, const char *file)
 {
     char    *full;
 
+    if (!dir || !subdir || !file)
+        return NULL;
+
     full = malloc (strlen (dir) + 1 + strlen (subdir) + 1 + strlen (file) + 1);
     if (!full)
 	return 0;
@@ -156,6 +163,9 @@ _XcursorThemeInherits (const char *full)
     char    line[8192];
     char    *result = 0;
     FILE    *f;
+
+    if (!full)
+        return NULL;
 
     f = fopen (full, "r");
     if (f)
@@ -206,6 +216,9 @@ XcursorScanTheme (const char *theme, const char *name)
     const char  *path;
     char	*inherits = 0;
     const char	*i;
+
+    if (!theme || !name)
+        return NULL;
 
     /*
      * XCURSOR_CORE_THEME is a magic name; cursors from the core set
@@ -259,6 +272,9 @@ XcursorLibraryLoadImage (const char *file, const char *theme, int size)
     FILE	    *f = 0;
     XcursorImage    *image = 0;
 
+    if (!file)
+        return NULL;
+
     if (theme)
 	f = XcursorScanTheme (theme, file);
     if (!f)
@@ -278,6 +294,9 @@ XcursorLibraryLoadImages (const char *file, const char *theme, int size)
 {
     FILE	    *f = 0;
     XcursorImages   *images = 0;
+
+    if (!file)
+        return NULL;
 
     if (theme)
 	f = XcursorScanTheme (theme, file);
@@ -303,6 +322,9 @@ XcursorLibraryLoadCursor (Display *dpy, const char *file)
     XcursorImages   *images = XcursorLibraryLoadImages (file, theme, size);
     Cursor	    cursor;
 
+    if (!file)
+        return 0;
+    
     if (!images)
     {
 	int id = XcursorLibraryShape (file);
@@ -327,6 +349,9 @@ XcursorLibraryLoadCursors (Display *dpy, const char *file)
     char	    *theme = XcursorGetTheme (dpy);
     XcursorImages   *images = XcursorLibraryLoadImages (file, theme, size);
     XcursorCursors  *cursors;
+    
+    if (!file)
+        return NULL;
     
     if (!images)
     {

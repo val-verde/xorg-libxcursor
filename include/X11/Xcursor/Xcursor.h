@@ -1,4 +1,5 @@
 /*
+ * $Id$
  *
  * Copyright © 2002 Keith Packard
  *
@@ -76,7 +77,7 @@ typedef XcursorUInt	XcursorPixel;
 
 #define XCURSOR_LIB_MAJOR	1
 #define XCURSOR_LIB_MINOR	1
-#define XCURSOR_LIB_REVISION	2
+#define XCURSOR_LIB_REVISION	4
 #define XCURSOR_LIB_VERSION	((XCURSOR_LIB_MAJOR * 10000) + \
 				 (XCURSOR_LIB_MINOR * 100) + \
 				 (XCURSOR_LIB_REVISION))
