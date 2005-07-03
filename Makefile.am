@@ -28,4 +28,4 @@ AM_CFLAGS = $(XRENDER_CFLAGS) $(XFIXES_CFLAGS) $(X_CFLAGS)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xcursor.pc
 
-EXTRA_DIST = $(man_MANS) xcursor.pc.in autogen.sh
+EXTRA_DIST = xcursor.pc.in autogen.sh
