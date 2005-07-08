@@ -3,7 +3,7 @@ lib_LTLIBRARIES = libXcursor.la
 libXcursor_la_SOURCES = xcursorint.h cursor.c display.c file.c library.c xlib.c
 
 libXcursor_la_LIBADD = $(XRENDER_LIBS) $(XFIXES_LIBS) $(X_LIBS)
-libXcursor_la_CFLAGS = $(XRENDER_CFLAGS) $(XFIXES_CFLAGS) $(X_CFLAGS)
+AM__CFLAGS = $(XRENDER_CFLAGS) $(XFIXES_CFLAGS) $(X_CFLAGS)
 
 INCLUDES = -I$(top_srcdir)/include/X11/Xcursor
 

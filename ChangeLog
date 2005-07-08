@@ -1,3 +1,11 @@
+2005-07-07  Keith Packard  <keithp@keithp.com>
+
+	* configure.ac:
+	* src/Makefile.am:
+	* xcursor.pc.in:
+	Make sure XFIXES appears in LIBS line, fix up
+	other pkg-config usage.
+
 Wed Jun  8 16:43:45 2005  Søren Sandmann  <sandmann@redhat.com>
 
 	* configure.ac: Remove all the "not found with pkgconfig" stuff 
