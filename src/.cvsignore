@@ -1,0 +1,6 @@
+.deps
+.libs
+libXcursor.la
+*.lo
+Makefile
+Makefile.in
