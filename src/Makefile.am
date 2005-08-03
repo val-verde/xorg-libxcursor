@@ -2,8 +2,8 @@ lib_LTLIBRARIES = libXcursor.la
 
 libXcursor_la_SOURCES = xcursorint.h cursor.c display.c file.c library.c xlib.c
 
-libXcursor_la_LIBADD = $(DEP_LIBS)
-AM_CFLAGS = $(DEP_CFLAGS)
+libXcursor_la_LIBADD = $(XCURSOR_LIBS)
+AM_CFLAGS = $(XCURSOR_CFLAGS)
 
 INCLUDES = -I$(top_srcdir)/include/X11/Xcursor
 
