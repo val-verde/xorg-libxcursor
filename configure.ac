@@ -42,6 +42,7 @@ AC_PROG_LIBTOOL
 
 # Check for X
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11)
+AC_DEFINE(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])
 
 AC_SUBST(XCURSOR_CFLAGS)
 AC_SUBST(XCURSOR_LIBS)
