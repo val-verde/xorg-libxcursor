@@ -30,7 +30,7 @@ dnl version.  This same version number must appear in Xcursor.h
 dnl Yes, it is a pain to synchronize version numbers.  Unfortunately, it's
 dnl not possible to extract the version number here from Xcursor.h
 dnl
-AC_INIT([libXcursor],1.1.3,[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],[libXcursor])
+AC_INIT([libXcursor],1.1.4,[https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],[libXcursor])
 AM_INIT_AUTOMAKE([dist-bzip2])
 AC_CONFIG_SRCDIR([Makefile.am])
 AM_MAINTAINER_MODE
