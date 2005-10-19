@@ -86,6 +86,7 @@ typedef struct _XcursorDisplayInfo {
     int				size;
     XcursorFontInfo		*fonts;
     char			*theme;
+    char                        *theme_from_config;
     XcursorDither		dither;
     XcursorBitmapInfo		bitmaps[NUM_BITMAPS];
 } XcursorDisplayInfo;

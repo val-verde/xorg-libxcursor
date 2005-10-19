@@ -28,6 +28,18 @@
 
 static XcursorDisplayInfo *_XcursorDisplayInfo;
 
+static void
+_XcursorFreeDisplayInfo (XcursorDisplayInfo *info)
+{
+    if (info->theme)
+	free (info->theme);
+
+    if (info->theme_from_config)
+	free (info->theme_from_config);
+
+    free (info);
+}
+
 static int
 _XcursorCloseDisplay (Display *dpy, XExtCodes *codes)
 {
@@ -44,10 +56,8 @@ _XcursorCloseDisplay (Display *dpy, XExtCodes *codes)
 	    break;
 	}
     _XUnlockMutex (_Xglobal_lock);
-    
-    if (info->theme)
-	free (info->theme);
-    free (info);
+
+    _XcursorFreeDisplayInfo (info);
     return 0;
 }
 
@@ -190,6 +200,7 @@ _XcursorGetDisplayInfo (Display *dpy)
     }
     
     info->theme = 0;
+    info->theme_from_config = 0;
 
     /*
      * Get the desired theme
@@ -199,9 +210,17 @@ _XcursorGetDisplayInfo (Display *dpy)
 	v = XGetDefault (dpy, "Xcursor", "theme");
     if (v)
     {
-	info->theme = malloc (strlen (v) + 1);
+	int len;
+
+	len = strlen (v) + 1;
+
+	info->theme = malloc (len);
 	if (info->theme)
 	    strcpy (info->theme, v);
+
+	info->theme_from_config = malloc (len);
+	if (info->theme_from_config)
+	    strcpy (info->theme_from_config, v);
     }
 
     /*
@@ -253,9 +272,7 @@ _XcursorGetDisplayInfo (Display *dpy)
 	    break;
     if (old)
     {
-	if (info->theme)
-	    free (info->theme);
-	free (info);
+	_XcursorFreeDisplayInfo (info);
 	info = old;
     }
     else
@@ -313,6 +330,10 @@ XcursorSetTheme (Display *dpy, const char *theme)
 
     if (!info)
 	return XcursorFalse;
+
+    if (!theme)
+	theme = info->theme_from_config;
+
     if (theme)
     {
 	copy = malloc (strlen (theme) + 1);
