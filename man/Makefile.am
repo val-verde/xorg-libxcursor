@@ -1,3 +1,15 @@
-man_MANS = Xcursor.3
+libmandir = $(mandir)/man$(LIB_MAN_SUFFIX)
 
-EXTRA_DIST = $(man_MANS)
+libman_SOURCES = Xcursor.man
+libman_DATA = $(libman_SOURCES:man=@LIB_MAN_SUFFIX@)
+
+all-local: $(libman_DATA)
+
+EXTRA_DIST = $(libman_SOURCES)
+CLEANFILES = $(libman_DATA)
+
+SUFFIXES = .$(LIB_MAN_SUFFIX) .man
+
+.man.$(LIB_MAN_SUFFIX):
+	-rm -f $@
+	$(LN_S) $< $@
