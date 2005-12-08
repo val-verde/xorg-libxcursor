@@ -30,7 +30,9 @@
 #define ICONDIR "/usr/X11R6/lib/X11/icons"
 #endif
 
-#define CURSORPATH "~/.icons:/usr/share/icons:/usr/share/pixmaps:"ICONDIR
+#ifndef XCURSORPATH
+#define XCURSORPATH "~/.icons:/usr/share/icons:/usr/share/pixmaps:"ICONDIR
+#endif
 
 const char *
 XcursorLibraryPath (void)
@@ -41,7 +43,7 @@ XcursorLibraryPath (void)
     {
 	path = getenv ("XCURSOR_PATH");
 	if (!path)
-	    path = CURSORPATH;
+	    path = XCURSORPATH;
     }
     return path;
 }
