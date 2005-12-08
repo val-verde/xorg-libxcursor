@@ -40,6 +40,21 @@ AM_CONFIG_HEADER(config.h)
 AC_PROG_CC
 AC_PROG_LIBTOOL
 
+AC_ARG_WITH(icondir,
+        AC_HELP_STRING([--with-icondir=<path>],
+                       [Set default icon directory (default: ${datadir}/icons)]),
+        [ICONDIR="$withval"],
+        [ICONDIR=${datadir}/icons])
+AC_SUBST([ICONDIR])
+
+DEF_CURSORPATH="~/.icons:/usr/share/icons:/usr/share/pixmaps:$ICONDIR"
+AC_ARG_WITH(cursorpath,
+        AC_HELP_STRING([--with-cursorpath=<paths>],
+                       [Set default search path for cursors]),
+        [XCURSORPATH="$withval"],
+        [XCURSORPATH=$DEF_CURSORPATH])
+AC_SUBST([XCURSORPATH])
+
 # Check for X
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11 fixesproto)
 AC_DEFINE(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])
