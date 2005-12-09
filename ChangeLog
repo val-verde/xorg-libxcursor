@@ -1,3 +1,8 @@
+2005-12-09  Kevin E. Martin  <kem-at-freedesktop-dot-org>
+
+	* xcursor.pc.in:
+	Add icondir to xcursor.pc to be used when installing cursors.
+
 2005-12-08  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* configure.ac:
