@@ -1,3 +1,8 @@
+2006-03-04  Daniel Stone  <daniel@freedesktop.org>
+
+	* include/X11/Xcursor/Xcursor.h:
+	Bug #4439: Include Xlib.h.
+
 2005-12-14  Kevin E. Martin  <kem-at-freedesktop-dot-org>
 
 	* configure.ac:

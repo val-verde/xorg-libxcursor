@@ -26,6 +26,7 @@
 #define _XCURSOR_H_
 #include <stdio.h>
 #include <X11/Xfuncproto.h>
+#include <X11/Xlib.h>
 
 typedef int		XcursorBool;
 typedef unsigned int	XcursorUInt;
