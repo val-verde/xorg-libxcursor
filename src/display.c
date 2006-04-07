@@ -57,7 +57,8 @@ _XcursorCloseDisplay (Display *dpy, XExtCodes *codes)
 	}
     _XUnlockMutex (_Xglobal_lock);
 
-    _XcursorFreeDisplayInfo (info);
+    if (info)
+	_XcursorFreeDisplayInfo (info);
     return 0;
 }
 

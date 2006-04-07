@@ -1,3 +1,8 @@
+2006-04-06  Adam Jackson  <ajax@freedesktop.org>
+
+	* src/display.c:
+	Coverity #159: Prevent a possible NULL chase.
+
 2006-03-04  Daniel Stone  <daniel@freedesktop.org>
 
 	* include/X11/Xcursor/Xcursor.h:
