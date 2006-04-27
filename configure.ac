@@ -47,7 +47,7 @@ AC_ARG_WITH(icondir,
         [ICONDIR=${datadir}/icons])
 AC_SUBST([ICONDIR])
 
-DEF_CURSORPATH="~/.icons:/usr/share/icons:/usr/share/pixmaps:$ICONDIR"
+DEF_CURSORPATH="~/.icons:${datadir}/icons:${datadir}/pixmaps:$ICONDIR"
 AC_ARG_WITH(cursorpath,
         AC_HELP_STRING([--with-cursorpath=<paths>],
                        [Set default search path for cursors]),
