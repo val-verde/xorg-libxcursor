@@ -655,16 +655,22 @@ XcursorXcFileLoadImages (XcursorFile *file, int size)
     int			toc;
     
     if (!file || size < 0)
-	return 0;
+	return NULL;
     fileHeader = _XcursorReadFileHeader (file);
     if (!fileHeader)
-	return 0;
+	return NULL;
     bestSize = _XcursorFindBestSize (fileHeader, (XcursorDim) size, &nsize);
     if (!bestSize)
-	return 0;
+    {
+        _XcursorFileHeaderDestroy (fileHeader);
+	return NULL;
+    }
     images = XcursorImagesCreate (nsize);
     if (!images)
-	return 0;
+    {
+        _XcursorFileHeaderDestroy (fileHeader);
+	return NULL;
+    }
     for (n = 0; n < nsize; n++)
     {
 	toc = _XcursorFindImageToc (fileHeader, bestSize, n);
