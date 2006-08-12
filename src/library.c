@@ -263,8 +263,7 @@ XcursorScanTheme (const char *theme, const char *name)
      */
     for (i = inherits; i && f == 0; i = _XcursorNextPath (i))
 	f = XcursorScanTheme (i, name);
-    if (inherits)
-	free (inherits);
+    free (inherits);
     return f;
 }
 

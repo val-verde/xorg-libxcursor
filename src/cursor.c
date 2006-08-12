@@ -47,6 +47,9 @@ XcursorCursorsDestroy (XcursorCursors *cursors)
 {
     int	    n;
 
+    if (!cursors)
+      return;
+
     --cursors->ref;
     if (cursors->ref > 0)
 	return;
@@ -73,6 +76,9 @@ XcursorAnimateCreate (XcursorCursors *cursors)
 void
 XcursorAnimateDestroy (XcursorAnimate *animate)
 {
+    if (!animate)
+      return;
+
     XcursorCursorsDestroy (animate->cursors);
     free (animate);
 }

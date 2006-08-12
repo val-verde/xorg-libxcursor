@@ -47,8 +47,7 @@ XcursorImageCreate (int width, int height)
 void
 XcursorImageDestroy (XcursorImage *image)
 {
-    if (image)
-        free (image);
+    free (image);
 }
 
 XcursorImages *
@@ -121,8 +120,7 @@ XcursorCommentCreate (XcursorUInt comment_type, int length)
 void
 XcursorCommentDestroy (XcursorComment *comment)
 {
-    if (!comment)
-        free (comment);
+    free (comment);
 }
 
 XcursorComments *
@@ -205,8 +203,7 @@ _XcursorWriteBytes (XcursorFile *file, char *bytes, int length)
 static void
 _XcursorFileHeaderDestroy (XcursorFileHeader *fileHeader)
 {
-    if (!fileHeader)
-        free (fileHeader);
+    free (fileHeader);
 }
 
 static XcursorFileHeader *
