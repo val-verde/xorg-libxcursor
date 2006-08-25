@@ -140,8 +140,8 @@ Images look like:
 .SS THEMES
 Xcursor (mostly) follows the freedesktop.org spec for theming icons.  The
 default search path it uses is $HOME/.icons, /usr/share/icons,
-/usr/share/pimaps, /usr/X11R6/lib/X11/icons.  Within each of these
-directorys, it searches for a directory using the theme name.  Within the
+/usr/share/pixmaps, /usr/X11R6/lib/X11/icons.  Within each of these
+directories, it searches for a directory using the theme name.  Within the
 theme directory, it looks for cursor files in the 'cursors' subdirectory.
 It uses the first cursor file found along  the path.
 .PP
