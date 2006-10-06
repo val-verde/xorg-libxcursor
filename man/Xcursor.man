@@ -71,6 +71,7 @@ and position in the file of each chunk.  The file header looks like:
 \fIversion\fP\^: CARD32 file version number
 .br
 \fIntoc\fP\^: CARD32 number of toc entries
+.br
 \fItoc\fP\^: LISTofTOC table of contents
 .in -.2i
 .P
@@ -78,7 +79,9 @@ Each table of contents entry looks like:
 .LP
 .in +.2i
 \fItype\fP\^: CARD32 entry type
+.br
 \fIsubtype\fP\^: CARD32 type-specific label - size for images
+.br
 \fIposition\fP\^: CARD32 absolute byte position of table in file
 .in -.2i
 .P
@@ -362,12 +365,11 @@ int XcursorGetDefaultSize (Display *dpy)
 Gets the default cursor size.
 
 .TP
-XcursorBool
-XcursorSetTheme (Display *dpy, const char *theme)
+XcursorBool XcursorSetTheme (Display *dpy, const char *theme)
 Sets the current theme name.
 
-char *
-XcursorGetTheme (Display *dpy)
+.TP
+char *XcursorGetTheme (Display *dpy)
 Gets the current theme name.
 
 .SH RESTRICTIONS
