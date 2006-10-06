@@ -15,4 +15,4 @@ XORGRELSTRING = @PACKAGE_STRING@
 
 .man.$(LIB_MAN_SUFFIX):
 	-rm -f $@
-	sed 's/__xorgversion__/"$(XORGRELSTRING)"/;  s/__LIB_MAN_SUFFIX__/$(LIB_MAN_SUFFIX)/' < $< > $@
+	sed 's/__xorgversion__/"$(XORGRELSTRING)"/;  s/__LIB_MAN_SUFFIX__/$(LIB_MAN_SUFFIX)/; s%__prefix__%$(prefix)%g; s%__ICONDIR__%$(ICONDIR)%g' < $< > $@
