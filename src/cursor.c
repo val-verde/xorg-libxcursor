@@ -34,7 +34,7 @@ XcursorCursorsCreate (Display *dpy, int size)
     cursors = malloc (sizeof (XcursorCursors) +
 		      size * sizeof (Cursor));
     if (!cursors)
-	return 0;
+	return NULL;
     cursors->ref = 1;
     cursors->dpy = dpy;
     cursors->ncursor = 0;
@@ -66,7 +66,7 @@ XcursorAnimateCreate (XcursorCursors *cursors)
 
     animate = malloc (sizeof (XcursorAnimate));
     if (!animate)
-	return 0;
+	return NULL;
     animate->cursors = cursors;
     cursors->ref++;
     animate->sequence = 0;
@@ -576,17 +576,17 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 	ximage.red_mask = 0xff0000;
 	ximage.green_mask = 0x00ff00;
 	ximage.blue_mask = 0x0000ff;
-	ximage.obdata = 0;
+	ximage.obdata = NULL;
 	if (!XInitImage (&ximage))
 	    return None;
 	pixmap = XCreatePixmap (dpy, RootWindow (dpy, screen),
 				image->width, image->height, 32);
-	gc = XCreateGC (dpy, pixmap, 0, 0);
+	gc = XCreateGC (dpy, pixmap, 0, NULL);
 	XPutImage (dpy, pixmap, gc, &ximage, 
 		   0, 0, 0, 0, image->width, image->height);
 	XFreeGC (dpy, gc);
 	format = XRenderFindStandardFormat (dpy, PictStandardARGB32);
-	picture = XRenderCreatePicture (dpy, pixmap, format, 0, 0);
+	picture = XRenderCreatePicture (dpy, pixmap, format, 0, NULL);
 	XFreePixmap (dpy, pixmap);
 	cursor = XRenderCreateCursor (dpy, picture, 
 				      image->xhot, image->yhot);
@@ -602,13 +602,13 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 	GC		    gc;
 	XGCValues	    gcv;
 
-	core.src_image = XCreateImage (dpy, 0, 1, ZPixmap,
-				       0, 0, image->width, image->height,
+	core.src_image = XCreateImage (dpy, NULL, 1, ZPixmap,
+				       0, NULL, image->width, image->height,
 				       32, 0);
 	core.src_image->data = Xmalloc (image->height * 
 					core.src_image->bytes_per_line);
-	core.msk_image = XCreateImage (dpy, 0, 1, ZPixmap,
-				       0, 0, image->width, image->height,
+	core.msk_image = XCreateImage (dpy, NULL, 1, ZPixmap,
+				       0, NULL, image->width, image->height,
 				       32, 0);
 	core.msk_image->data = Xmalloc (image->height * 
 					core.msk_image->bytes_per_line);
@@ -678,14 +678,14 @@ XcursorImagesLoadCursors (Display *dpy, const XcursorImages *images)
     int		    n;
 
     if (!cursors)
-	return 0;
+	return NULL;
     for (n = 0; n < images->nimage; n++)
     {
 	cursors->cursors[n] = XcursorImageLoadCursor (dpy, images->images[n]);
 	if (!cursors->cursors[n])
 	{
 	    XcursorCursorsDestroy (cursors);
-	    return 0;
+	    return NULL;
 	}
 	cursors->ncursor++;
     }
@@ -751,7 +751,7 @@ XcursorFilenameLoadCursors (Display *dpy, const char *file)
     XcursorCursors  *cursors;
     
     if (!images)
-	return 0;
+	return NULL;
     cursors = XcursorImagesLoadCursors (dpy, images);
     XcursorImagesDestroy (images);
     return cursors;

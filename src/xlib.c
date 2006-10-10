@@ -179,7 +179,7 @@ _XcursorGetBitmap (Display *dpy, Pixmap bitmap)
     info = _XcursorGetDisplayInfo (dpy);
 
     if (!info)
-	return 0;
+	return NULL;
     LockDisplay (dpy);
     for (i = 0; i < NUM_BITMAPS; i++)
 	if (info->bitmaps[i].bitmap == bitmap)
@@ -189,7 +189,7 @@ _XcursorGetBitmap (Display *dpy, Pixmap bitmap)
 	    return &info->bitmaps[i];
 	}
     UnlockDisplay (dpy);
-    return 0;
+    return NULL;
 }
 
 static Bool
