@@ -29,3 +29,8 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xcursor.pc
 
 EXTRA_DIST = xcursor.pc.in autogen.sh
+
+if LINT
+lint:
+	(cd src && $(MAKE) $(MFLAGS) lint)
+endif LINT
