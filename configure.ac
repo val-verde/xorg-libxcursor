@@ -51,13 +51,20 @@ AC_ARG_WITH(icondir,
         [ICONDIR=${datadir}/icons])
 AC_SUBST([ICONDIR])
 
-DEF_CURSORPATH="~/.icons:${datadir}/icons:${datadir}/pixmaps:$ICONDIR"
+DEF_CURSORPATH="~/.icons:${datadir}/icons:${datadir}/pixmaps"
+if test "x${ICONDIR}" != "x${datadir}/icons"; then
+	DEF_CURSORPATH="${DEF_CURSORPATH}:${ICONDIR}"
+fi
 AC_ARG_WITH(cursorpath,
         AC_HELP_STRING([--with-cursorpath=<paths>],
                        [Set default search path for cursors]),
         [XCURSORPATH="$withval"],
         [XCURSORPATH=$DEF_CURSORPATH])
 AC_SUBST([XCURSORPATH])
+
+# Reformat cursor path for man page
+XCURSORPATH_LIST=`echo $XCURSORPATH | sed 's/:/, /g'`
+AC_SUBST([XCURSORPATH_LIST])
 
 # Check for X
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11 fixesproto)

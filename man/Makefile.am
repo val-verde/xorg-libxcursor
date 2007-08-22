@@ -13,6 +13,15 @@ SUFFIXES = .$(LIB_MAN_SUFFIX) .man
 # Strings to replace in man pages
 XORGRELSTRING = @PACKAGE_STRING@
 
+MAN_SUBSTS = \
+	-e 's|__xorgversion__|"$(XORGRELSTRING)"|' \
+	-e 's|__XCURSORPATH__|$(XCURSORPATH_LIST)|g' \
+	-e 's|__appmansuffix__|$(APP_MAN_SUFFIX)|g' \
+	-e 's|__libmansuffix__|$(LIB_MAN_SUFFIX)|g' \
+	-e 's|__adminmansuffix__|$(ADMIN_MAN_SUFFIX)|g' \
+	-e 's|__miscmansuffix__|$(MISC_MAN_SUFFIX)|g' \
+	-e 's|__filemansuffix__|$(FILE_MAN_SUFFIX)|g'
+
 .man.$(LIB_MAN_SUFFIX):
 	-rm -f $@
-	sed 's/__xorgversion__/"$(XORGRELSTRING)"/;  s/__LIB_MAN_SUFFIX__/$(LIB_MAN_SUFFIX)/; s%__prefix__%$(prefix)%g; s%__ICONDIR__%$(ICONDIR)%g' < $< > $@
+	sed $(MAN_SUBSTS) < $< > $@
