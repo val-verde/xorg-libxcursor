@@ -355,7 +355,7 @@ mapped to a core X cursor.
 .TP
 XcursorBool XcursorSetDefaultSize (Display *dpy, int size)
 Sets the default size for cursors on the specified display. When loading
-cursors, those who's nominal size is closest to this size will be preferred.
+cursors, those whose nominal size is closest to this size will be preferred.
 
 .TP
 int XcursorGetDefaultSize (Display *dpy)
@@ -368,6 +368,12 @@ Sets the current theme name.
 .TP
 char *XcursorGetTheme (Display *dpy)
 Gets the current theme name.
+
+.SH "ENVIRONMENT VARIABLES"
+.TP 15
+.B XCURSOR_PATH
+This variable sets the list of paths to look for cursors in.   
+Directories in this path are separated by colons (:).
 
 .SH RESTRICTIONS
 .B Xcursor
