@@ -25,3 +25,49 @@ MAN_SUBSTS = \
 .man.$(LIB_MAN_SUFFIX):
 	-rm -f $@
 	sed $(MAN_SUBSTS) < $< > $@
+
+# Generate man page shadow files
+
+LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
+libman_DATA += $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@)
+BUILT_SOURCES = shadows.DONE
+CLEANFILES += shadows.DONE
+
+Xcursor_shadows = \
+	XcursorImageCreate \
+	XcursorImageDestroy \
+	XcursorImagesCreate \
+	XcursorImagesDestroy \
+	XcursorCursorsCreate \
+	XcursorCursorsDestroy \
+	XcursorXcFileLoadImage \
+	XcursorXcFileLoadImages \
+	XcursorXcFileLoadAllImages \
+	XcursorXcFileLoad \
+	XcursorXcFileSave \
+	XcursorFilenameLoadImage \
+	XcursorFilenameLoadImages \
+	XcursorFilenameLoadAllImages \
+	XcursorFilenameLoad \
+	XcursorFilenameSaveImages \
+	XcursorFilenameSave \
+	XcursorLibraryLoadImage \
+	XcursorLibraryLoadImages \
+	XcursorFilenameLoadCursor \
+	XcursorLibraryLoadCursor \
+	XcursorLibraryLoadCursors \
+	XcursorShapeLoadImage \
+	XcursorShapeLoadImages \
+	XcursorShapeLoadCursor \
+	XcursorShapeLoadCursors \
+	XcursorSupportsARGB \
+	XcursorSetDefaultSize \
+	XcursorGetDefaultSize \
+	XcursorSetTheme \
+	XcursorGetTheme
+
+shadows.DONE:
+	-rm -f $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@)
+	(for i in $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@) ; do \
+	 echo .so man$(LIB_MAN_DIR_SUFFIX)/Xcursor.$(LIB_MAN_SUFFIX) > $$i; \
+	 done)
