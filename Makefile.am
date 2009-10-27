@@ -33,8 +33,6 @@ lint:
 	(cd src && $(MAKE) $(MFLAGS) lint)
 endif LINT
 
-EXTRA_DIST += ChangeLog
-MAINTAINERCLEANFILES = ChangeLog
 
 .PHONY: ChangeLog
 
