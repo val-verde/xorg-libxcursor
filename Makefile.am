@@ -26,6 +26,7 @@ AM_CFLAGS = $(XRENDER_CFLAGS) $(XFIXES_CFLAGS) $(X_CFLAGS)
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xcursor.pc
 
+MAINTAINERCLEANFILES = ChangeLog INSTALL
 EXTRA_DIST = xcursor.pc.in
 
 if LINT
