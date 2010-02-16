@@ -69,10 +69,6 @@ AC_SUBST([XCURSORPATH_LIST])
 # Check for X
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11 fixesproto)
 AC_DEFINE(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])
-XCURSOR_CFLAGS="$CWARNFLAGS $XCURSOR_CFLAGS"
-AC_SUBST(XCURSOR_CFLAGS)
-AC_SUBST(XCURSOR_LIBS)
-
 
 dnl Allow checking code with lint, sparse, etc.
 XORG_WITH_LINT
