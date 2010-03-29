@@ -27,7 +27,6 @@ pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = xcursor.pc
 
 MAINTAINERCLEANFILES = ChangeLog INSTALL
-EXTRA_DIST = xcursor.pc.in
 
 if LINT
 lint:
