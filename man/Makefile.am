@@ -1,39 +1,40 @@
 libmandir = $(LIB_MAN_DIR)
 
-libman_PRE = Xcursor.man \
+libman_PRE =				\
+	Xcursor.man			\
 	$(Xcursor_shadows:=.man)
 
-Xcursor_shadows = \
-	XcursorImageCreate \
-	XcursorImageDestroy \
-	XcursorImagesCreate \
-	XcursorImagesDestroy \
-	XcursorCursorsCreate \
-	XcursorCursorsDestroy \
-	XcursorXcFileLoadImage \
-	XcursorXcFileLoadImages \
-	XcursorXcFileLoadAllImages \
-	XcursorXcFileLoad \
-	XcursorXcFileSave \
-	XcursorFilenameLoadImage \
-	XcursorFilenameLoadImages \
-	XcursorFilenameLoadAllImages \
-	XcursorFilenameLoad \
-	XcursorFilenameSaveImages \
-	XcursorFilenameSave \
-	XcursorLibraryLoadImage \
-	XcursorLibraryLoadImages \
-	XcursorFilenameLoadCursor \
-	XcursorLibraryLoadCursor \
-	XcursorLibraryLoadCursors \
-	XcursorShapeLoadImage \
-	XcursorShapeLoadImages \
-	XcursorShapeLoadCursor \
-	XcursorShapeLoadCursors \
-	XcursorSupportsARGB \
-	XcursorSetDefaultSize \
-	XcursorGetDefaultSize \
-	XcursorSetTheme \
+Xcursor_shadows =			\
+	XcursorImageCreate		\
+	XcursorImageDestroy		\
+	XcursorImagesCreate		\
+	XcursorImagesDestroy		\
+	XcursorCursorsCreate		\
+	XcursorCursorsDestroy		\
+	XcursorXcFileLoadImage		\
+	XcursorXcFileLoadImages		\
+	XcursorXcFileLoadAllImages	\
+	XcursorXcFileLoad		\
+	XcursorXcFileSave		\
+	XcursorFilenameLoadImage	\
+	XcursorFilenameLoadImages	\
+	XcursorFilenameLoadAllImages	\
+	XcursorFilenameLoad		\
+	XcursorFilenameSaveImages	\
+	XcursorFilenameSave		\
+	XcursorLibraryLoadImage		\
+	XcursorLibraryLoadImages	\
+	XcursorFilenameLoadCursor	\
+	XcursorLibraryLoadCursor	\
+	XcursorLibraryLoadCursors	\
+	XcursorShapeLoadImage		\
+	XcursorShapeLoadImages		\
+	XcursorShapeLoadCursor		\
+	XcursorShapeLoadCursors		\
+	XcursorSupportsARGB		\
+	XcursorSetDefaultSize		\
+	XcursorGetDefaultSize		\
+	XcursorSetTheme			\
 	XcursorGetTheme
 
 libman_DATA = $(libman_PRE:man=@LIB_MAN_SUFFIX@)
