@@ -1,30 +1,20 @@
 libmandir = $(LIB_MAN_DIR)
 
-libman_PRE = Xcursor.man
-libman_DATA = $(libman_PRE:man=@LIB_MAN_SUFFIX@)
+libman_PRE = Xcursor.man \
+	$(Xcursor_shadows:=.man)
 
-all-local: $(libman_DATA)
+libman_DATA = $(libman_PRE:man=@LIB_MAN_SUFFIX@)
 
 EXTRA_DIST = $(libman_PRE)
 CLEANFILES = $(libman_DATA)
 
 SUFFIXES = .$(LIB_MAN_SUFFIX) .man
 
-# Strings to replace in man pages
-XORGRELSTRING = @PACKAGE_STRING@
-
 # String replacements in MAN_SUBSTS now come from xorg-macros.m4 via configure
-MAN_SUBSTS = -e 's|__XCURSORPATH__|$(XCURSORPATH_LIST)|g'
+MAN_SUBSTS += -e 's|__XCURSORPATH__|$(XCURSORPATH_LIST)|g'
 
 .man.$(LIB_MAN_SUFFIX):
 	$(AM_V_GEN)$(SED) $(MAN_SUBSTS) < $< > $@
-
-# Generate man page shadow files
-
-LIB_MAN_DIR_SUFFIX = $(LIB_MAN_DIR:@mandir@/man%=%)
-libman_DATA += $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@)
-BUILT_SOURCES = shadows.DONE
-CLEANFILES += shadows.DONE
 
 Xcursor_shadows = \
 	XcursorImageCreate \
@@ -59,8 +49,3 @@ Xcursor_shadows = \
 	XcursorSetTheme \
 	XcursorGetTheme
 
-shadows.DONE:
-	-rm -f $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@)
-	(for i in $(Xcursor_shadows:=.@LIB_MAN_SUFFIX@) ; do \
-	 echo .so man$(LIB_MAN_DIR_SUFFIX)/Xcursor.$(LIB_MAN_SUFFIX) > $$i; \
-	 done)
