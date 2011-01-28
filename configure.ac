@@ -45,7 +45,7 @@ XORG_DEFAULT_OPTIONS
 AC_PROG_LIBTOOL
 
 AC_ARG_WITH(icondir,
-        AC_HELP_STRING([--with-icondir=<path>],
+        AS_HELP_STRING([--with-icondir=<path>],
                        [Set default icon directory (default: ${datadir}/icons)]),
         [ICONDIR="$withval"],
         [ICONDIR=${datadir}/icons])
@@ -56,7 +56,7 @@ if test "x${ICONDIR}" != "x${datadir}/icons"; then
 	DEF_CURSORPATH="${DEF_CURSORPATH}:${ICONDIR}"
 fi
 AC_ARG_WITH(cursorpath,
-        AC_HELP_STRING([--with-cursorpath=<paths>],
+        AS_HELP_STRING([--with-cursorpath=<paths>],
                        [Set default search path for cursors]),
         [XCURSORPATH="$withval"],
         [XCURSORPATH=$DEF_CURSORPATH])
