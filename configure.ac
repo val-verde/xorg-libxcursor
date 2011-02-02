@@ -64,10 +64,6 @@ AC_ARG_WITH(cursorpath,
         [XCURSORPATH=$DEF_CURSORPATH])
 AC_SUBST([XCURSORPATH])
 
-# Reformat cursor path for man page
-XCURSORPATH_LIST=`echo $XCURSORPATH | sed 's/:/, /g'`
-AC_SUBST([XCURSORPATH_LIST])
-
 # Obtain compiler/linker options for depedencies
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11 fixesproto)
 AC_DEFINE(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])
