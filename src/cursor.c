@@ -201,6 +201,9 @@ _XcursorAverageColor (XcursorPixel *pixels, int npixels)
     XcursorPixel    red, green, blue;
     int		    n = npixels;
 
+    if (n < 1)
+	return 0;
+
     blue = green = red = 0;
     while (n--)
     {
@@ -209,8 +212,6 @@ _XcursorAverageColor (XcursorPixel *pixels, int npixels)
 	green += (p >> 8) & 0xff;
 	blue += (p >> 0) & 0xff;
     }
-    if (!n)
-	return 0;
     return (0xff << 24) | ((red/npixels) << 16) | ((green/npixels) << 8) | (blue/npixels);
 }
 
