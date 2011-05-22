@@ -212,7 +212,7 @@ _XcursorAverageColor (XcursorPixel *pixels, int npixels)
 	green += (p >> 8) & 0xff;
 	blue += (p >> 0) & 0xff;
     }
-    return (0xff << 24) | ((red/npixels) << 16) | ((green/npixels) << 8) | (blue/npixels);
+    return (0xffU << 24) | ((red/npixels) << 16) | ((green/npixels) << 8) | (blue/npixels);
 }
 
 typedef struct XcursorCoreCursor {
@@ -277,7 +277,7 @@ _XcursorHeckbertMedianCut (const XcursorImage *image, XcursorCoreCursor *core)
 	    if (green > max_green) max_green = green;
 	    if (blue < min_blue) min_blue = blue;
 	    if (blue > max_blue) max_blue = blue;
-	    p = ((0xff << 24) | (red << 16) | 
+	    p = ((0xffU << 24) | (red << 16) |
 		 (green << 8) | (blue << 0));
 	    *pc++ = p;
 	}
