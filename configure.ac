@@ -28,7 +28,7 @@ AC_PREREQ([2.60])
 # Yes, it is a pain to synchronize version numbers.  Unfortunately, it's
 # not possible to extract the version number here from Xcursor.h
 #
-AC_INIT([libXcursor], [1.1.11],
+AC_INIT([libXcursor], [1.1.12],
         [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],[libXcursor])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h])
