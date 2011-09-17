@@ -239,7 +239,7 @@ void
 XcursorImageDestroy (XcursorImage *image);
 
 /*
- * Manage Images objects 
+ * Manage Images objects
  */
 XcursorImages *
 XcursorImagesCreate (int size);
@@ -304,7 +304,7 @@ XcursorXcFileLoad (XcursorFile	    *file,
 		   XcursorImages    **imagesp);
 
 XcursorBool
-XcursorXcFileSave (XcursorFile		    *file, 
+XcursorXcFileSave (XcursorFile		    *file,
 		   const XcursorComments    *comments,
 		   const XcursorImages	    *images);
 
@@ -321,15 +321,15 @@ XcursorImages *
 XcursorFileLoadAllImages (FILE *file);
 
 XcursorBool
-XcursorFileLoad (FILE		    *file, 
-		 XcursorComments    **commentsp, 
+XcursorFileLoad (FILE		    *file,
+		 XcursorComments    **commentsp,
 		 XcursorImages	    **imagesp);
 
 XcursorBool
 XcursorFileSaveImages (FILE *file, const XcursorImages *images);
 
 XcursorBool
-XcursorFileSave (FILE *			file, 
+XcursorFileSave (FILE *			file,
 		 const XcursorComments	*comments,
 		 const XcursorImages	*images);
 
@@ -354,7 +354,7 @@ XcursorBool
 XcursorFilenameSaveImages (const char *filename, const XcursorImages *images);
 
 XcursorBool
-XcursorFilenameSave (const char		    *file, 
+XcursorFilenameSave (const char		    *file,
 		     const XcursorComments  *comments,
 		     const XcursorImages    *images);
 
@@ -376,7 +376,7 @@ XcursorLibraryPath (void);
 
 int
 XcursorLibraryShape (const char *library);
-    
+
 /*
  * Image/Cursor APIs
  */
@@ -465,7 +465,7 @@ XcursorTryShapeBitmapCursor (Display		*dpy,
 #define XCURSOR_BITMAP_HASH_SIZE    16
 
 void
-XcursorImageHash (XImage	*image, 
+XcursorImageHash (XImage	*image,
 		  unsigned char	hash[XCURSOR_BITMAP_HASH_SIZE]);
 
 /*
