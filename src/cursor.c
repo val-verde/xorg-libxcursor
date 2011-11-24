@@ -601,6 +601,9 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 	GC		    gc;
 	XGCValues	    gcv;
 
+	if (!info)
+	    return 0;
+
 	core.src_image = XCreateImage (dpy, NULL, 1, ZPixmap,
 				       0, NULL, image->width, image->height,
 				       32, 0);
