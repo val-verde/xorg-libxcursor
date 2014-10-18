@@ -49,7 +49,7 @@ XcursorLibraryPath (void)
 static  void
 _XcursorAddPathElt (char *path, const char *elt, int len)
 {
-    int	    pathlen = strlen (path);
+    size_t    pathlen = strlen (path);
 
     /* append / if the path doesn't currently have one */
     if (path[0] == '\0' || path[pathlen - 1] != '/')
