@@ -86,12 +86,11 @@ XcursorImagesSetName (XcursorImages *images, const char *name)
     if (!images || !name)
         return;
 
-    new = malloc (strlen (name) + 1);
+    new = strdup (name);
 
     if (!new)
 	return;
 
-    strcpy (new, name);
     if (images->name)
 	free (images->name);
     images->name = new;
