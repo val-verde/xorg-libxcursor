@@ -67,7 +67,7 @@ AC_ARG_WITH(icondir,
         [ICONDIR=${datadir}/icons])
 AC_SUBST([ICONDIR])
 
-DEF_CURSORPATH="~/.icons:${datadir}/icons:${datadir}/pixmaps"
+DEF_CURSORPATH="~/.local/share/icons:~/.icons:${datadir}/icons:${datadir}/pixmaps"
 if test "x${ICONDIR}" != "x${datadir}/icons"; then
 	DEF_CURSORPATH="${DEF_CURSORPATH}:${ICONDIR}"
 fi
