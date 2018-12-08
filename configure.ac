@@ -27,7 +27,7 @@ AC_PREREQ([2.60])
 # version.  This version number will be substituted into Xcursor.h
 #
 AC_INIT([libXcursor], [1.1.15],
-        [https://bugs.freedesktop.org/enter_bug.cgi?product=xorg],[libXcursor])
+        [https://gitlab.freedesktop.org/xorg/lib/libXcursor/issues],[libXcursor])
 AC_CONFIG_SRCDIR([Makefile.am])
 AC_CONFIG_HEADERS([config.h include/X11/Xcursor/Xcursor.h])
 # Set common system defines for POSIX extensions, such as _GNU_SOURCE
