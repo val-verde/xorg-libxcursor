@@ -336,7 +336,7 @@ XcursorNoticePutBitmap (Display	    *dpy,
     /*
      * Make sure the image fills the bitmap
      */
-    if (image->width != bmi->width || image->height != bmi->height)
+    if (image->width != (int)bmi->width || image->height != (int)bmi->height)
     {
 	bmi->bitmap = 0;
 	return;
