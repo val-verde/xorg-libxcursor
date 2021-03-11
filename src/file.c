@@ -233,7 +233,7 @@ _XcursorReadFileHeader (XcursorFile *file)
 {
     XcursorFileHeader	head, *fileHeader;
     XcursorUInt		skip;
-    int			n;
+    XcursorUInt		n;
 
     if (!file)
         return NULL;
@@ -286,7 +286,7 @@ _XcursorFileHeaderLength (XcursorFileHeader *fileHeader)
 static XcursorBool
 _XcursorWriteFileHeader (XcursorFile *file, XcursorFileHeader *fileHeader)
 {
-    int	toc;
+    XcursorUInt toc;
 
     if (!file || !fileHeader)
         return XcursorFalse;
@@ -375,7 +375,7 @@ _XcursorFindBestSize (XcursorFileHeader *fileHeader,
 		      XcursorDim	size,
 		      int		*nsizesp)
 {
-    int		n;
+    XcursorUInt	n;
     int		nsizes = 0;
     XcursorDim	bestSize = 0;
     XcursorDim	thisSize;
@@ -405,7 +405,7 @@ _XcursorFindImageToc (XcursorFileHeader	*fileHeader,
 		      XcursorDim	size,
 		      int		count)
 {
-    int			toc;
+    XcursorUInt		toc;
     XcursorDim		thisSize;
 
     if (!fileHeader)
@@ -424,7 +424,7 @@ _XcursorFindImageToc (XcursorFileHeader	*fileHeader,
     }
     if (toc == fileHeader->ntoc)
 	return -1;
-    return toc;
+    return (int) toc;
 }
 
 static XcursorImage *
@@ -701,8 +701,8 @@ XcursorXcFileLoadAllImages (XcursorFile *file)
     XcursorImage	*image;
     XcursorImages	*images;
     int			nimage;
-    int			n;
-    int			toc;
+    XcursorUInt		n;
+    XcursorUInt		toc;
 
     if (!file)
         return NULL;
@@ -729,7 +729,7 @@ XcursorXcFileLoadAllImages (XcursorFile *file)
     {
 	switch (fileHeader->tocs[toc].type) {
 	case XCURSOR_IMAGE_TYPE:
-	    image = _XcursorReadImage (file, fileHeader, toc);
+	    image = _XcursorReadImage (file, fileHeader, (int) toc);
 	    if (image)
 	    {
 		images->images[images->nimage] = image;
@@ -759,7 +759,7 @@ XcursorXcFileLoad (XcursorFile	    *file,
     XcursorImage	*image;
     XcursorComment	*comment;
     XcursorComments	*comments;
-    int			toc;
+    XcursorUInt		toc;
 
     if (!file)
         return 0;
@@ -792,7 +792,7 @@ XcursorXcFileLoad (XcursorFile	    *file,
     {
 	switch (fileHeader->tocs[toc].type) {
 	case XCURSOR_COMMENT_TYPE:
-	    comment = _XcursorReadComment (file, fileHeader, toc);
+	    comment = _XcursorReadComment (file, fileHeader, (int) toc);
 	    if (comment)
 	    {
 		comments->comments[comments->ncomment] = comment;
@@ -800,7 +800,7 @@ XcursorXcFileLoad (XcursorFile	    *file,
 	    }
 	    break;
 	case XCURSOR_IMAGE_TYPE:
-	    image = _XcursorReadImage (file, fileHeader, toc);
+	    image = _XcursorReadImage (file, fileHeader, (int) toc);
 	    if (image)
 	    {
 		images->images[images->nimage] = image;
