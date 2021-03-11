@@ -805,8 +805,10 @@ _XcursorCreateGlyphCursor(Display	    *dpy,
 Cursor
 _XcursorCreateFontCursor (Display *dpy, unsigned int shape)
 {
-    static XColor _Xconst foreground = { 0,    0,     0,     0  };  /* black */
-    static XColor _Xconst background = { 0, 65535, 65535, 65535 };  /* white */
+#define DATA(c) { 0UL, c, c, c, 0, 0 }
+    static XColor _Xconst foreground = DATA(0);  /* black */
+    static XColor _Xconst background = DATA(65535);  /* white */
+#undef DATA
 
     /*
      * the cursor font contains the shape glyph followed by the mask
