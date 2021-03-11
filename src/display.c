@@ -50,6 +50,8 @@ _XcursorCloseDisplay (Display *dpy, XExtCodes *codes)
 {
     XcursorDisplayInfo  *info, **prev;
 
+    (void) codes;	/* UNUSED */
+
     /*
      * Unhook from the global list
      */

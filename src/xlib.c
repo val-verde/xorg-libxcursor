@@ -403,6 +403,10 @@ XcursorTryShapeBitmapCursor (Display		*dpy,
     int			i;
     Cursor		cursor;
 
+    (void) mask;	/* UNUSED */
+    (void) x;		/* UNUSED */
+    (void) y;		/* UNUSED */
+
     if (!dpy || !foreground || !background)
         return 0;
 
