@@ -428,7 +428,7 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
     n = (int) npixels;
     max_inten = 0;
     min_inten = 0xff;
-    while (n--)
+    while (n-- >= 0)
     {
 	p = *pixel++;
 	*aP++ = (int) (p >> 24);
