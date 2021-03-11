@@ -314,8 +314,8 @@ _XcursorHeckbertMedianCut (const XcursorImage *image, XcursorCoreCursor *core)
      * Select best color for each pixel
      */
     pn = pixels;
-    for (y = 0; y < image->height; y++)
-	for (x = 0; x < image->width; x++)
+    for (y = 0; (unsigned) y < image->height; y++)
+	for (x = 0; (unsigned) x < image->width; x++)
 	{
 	    p = *pn++;
 	    if (p & 0xff000000)
@@ -364,8 +364,8 @@ _XcursorBayerOrderedDither (const XcursorImage *image, XcursorCoreCursor *core)
     XcursorPixel    a, i, d;
 
     pixel = image->pixels;
-    for (y = 0; y < image->height; y++)
-	for (x = 0; x < image->width; x++)
+    for (y = 0; (unsigned) y < image->height; y++)
+	for (x = 0; (unsigned) x < image->width; x++)
 	{
 	    p = *pixel++;
 	    a = (XcursorPixel) (((p >> 24) * DITHER_SIZE + 127) / 255);
@@ -443,8 +443,8 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
     iP = iPicture;
     aP = aPicture;
     mean_inten = (max_inten + min_inten + 1) >> 1;
-    for (y = 0; y < image->height; y++)
-	for (x = 0; x < image->width; x++)
+    for (y = 0; (unsigned) y < image->height; y++)
+	for (x = 0; (unsigned) x < image->width; x++)
 	{
 	    aR = *aP;
 	    iR = *iP;
@@ -480,12 +480,12 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
 	    aErrorBelow = (aError * 5) >> 4;
 	    aErrorBelowRight = (aError - aErrorRight -
 				aErrorBelowLeft - aErrorBelow);
-	    if (x < image->width - 1)
+	    if (x < ((int)image->width - 1))
 	    {
 		iP[right] += iErrorRight;
 		aP[right] += aErrorRight;
 	    }
-	    if (y < image->height - 1)
+	    if (y < ((int)image->height - 1))
 	    {
 		if (x)
 		{
@@ -494,7 +494,7 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
 		}
 		iP[below] += iErrorBelow;
 		aP[below] += aErrorBelow;
-		if (x < image->width - 1)
+		if (x < ((int)image->width - 1))
 		{
 		    iP[belowRight] += iErrorBelowRight;
 		    aP[belowRight] += aErrorBelowRight;
@@ -523,8 +523,8 @@ _XcursorThreshold (const XcursorImage *image, XcursorCoreCursor *core)
      * Draw the image, picking black for dark pixels and white for light
      */
     pixel = image->pixels;
-    for (y = 0; y < image->height; y++)
-	for (x = 0; x < image->width; x++)
+    for (y = 0; (unsigned) y < image->height; y++)
+	for (x = 0; (unsigned) x < image->width; x++)
 	{
 	    p = *pixel++;
 	    if ((p >> 24) >= 0x80)
