@@ -58,15 +58,15 @@ _XcursorAddPathElt (char *path, const char *elt, int len)
 	pathlen++;
     }
     if (len == -1)
-	len = strlen (elt);
+	len = (int) strlen (elt);
     /* strip leading slashes */
     while (len && elt[0] == '/')
     {
 	elt++;
 	len--;
     }
-    strncpy (path + pathlen, elt, len);
-    path[pathlen + len] = '\0';
+    strncpy (path + pathlen, elt, (size_t) len);
+    path[pathlen + (size_t) len] = '\0';
 }
 
 static char *
@@ -88,13 +88,13 @@ _XcursorBuildThemeDir (const char *dir, const char *theme)
     if (!colon)
 	colon = dir + strlen (dir);
 
-    dirlen = colon - dir;
+    dirlen = (int) (colon - dir);
 
     tcolon = strchr (theme, ':');
     if (!tcolon)
 	tcolon = theme + strlen (theme);
 
-    themelen = tcolon - theme;
+    themelen = (int) (tcolon - theme);
 
     home = NULL;
     homelen = 0;
@@ -103,7 +103,7 @@ _XcursorBuildThemeDir (const char *dir, const char *theme)
 	home = getenv ("HOME");
 	if (!home)
 	    return NULL;
-	homelen = strlen (home);
+	homelen = (int) strlen (home);
 	dir++;
 	dirlen--;
     }
@@ -114,7 +114,7 @@ _XcursorBuildThemeDir (const char *dir, const char *theme)
      */
     len = 1 + homelen + 1 + dirlen + 1 + themelen + 1;
 
-    full = malloc (len);
+    full = malloc ((size_t)len);
     if (!full)
 	return NULL;
     full[0] = '\0';
@@ -335,7 +335,7 @@ XcursorLibraryLoadCursor (Display *dpy, const char *file)
 	int id = XcursorLibraryShape (file);
 
 	if (id >= 0)
-	    return _XcursorCreateFontCursor (dpy, id);
+	    return _XcursorCreateFontCursor (dpy, (unsigned) id);
 	else
 	    return 0;
     }
@@ -367,7 +367,7 @@ XcursorLibraryLoadCursors (Display *dpy, const char *file)
 	    cursors = XcursorCursorsCreate (dpy, 1);
 	    if (cursors)
 	    {
-		cursors->cursors[0] = _XcursorCreateFontCursor (dpy, id);
+		cursors->cursors[0] = _XcursorCreateFontCursor (dpy, (unsigned) id);
 		if (cursors->cursors[0] == None)
 		{
 		    XcursorCursorsDestroy (cursors);

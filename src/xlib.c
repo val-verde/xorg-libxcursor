@@ -291,7 +291,7 @@ XcursorImageHash (XImage	  *image,
 	    if (bit_swap)
 		t = _reverse_byte[t];
 	    if (t)
-		hash[(i++) & (XCURSOR_BITMAP_HASH_SIZE - 1)] ^= RotByte (t, y & 7);
+		hash[(i++) & (XCURSOR_BITMAP_HASH_SIZE - 1)] ^= (unsigned char) RotByte (t, y & 7);
 	}
 	line += image->bytes_per_line;
     }

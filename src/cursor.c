@@ -30,7 +30,7 @@ XcursorCursorsCreate (Display *dpy, int size)
     XcursorCursors  *cursors;
 
     cursors = malloc (sizeof (XcursorCursors) +
-		      size * sizeof (Cursor));
+		      (size_t) size * sizeof (Cursor));
     if (!cursors)
 	return NULL;
     cursors->ref = 1;
@@ -124,7 +124,7 @@ _XcursorDivideAlpha (XcursorUInt value, XcursorUInt alpha)
     value = value * 255 / alpha;
     if (value > 255)
 	value = 255;
-    return value | (value << 8);
+    return (unsigned short) (value | (value << 8));
 }
 
 static void
@@ -194,6 +194,8 @@ _XcursorCompareBlue (const void *a, const void *b)
     return (int) (((*ap >> 0) & 0xff) - ((*bp >> 0) & 0xff));
 }
 
+#define ScaledPixels(c,n) ((c)/(XcursorPixel)(n))
+
 static XcursorPixel
 _XcursorAverageColor (XcursorPixel *pixels, int npixels)
 {
@@ -212,7 +214,10 @@ _XcursorAverageColor (XcursorPixel *pixels, int npixels)
 	green += (p >> 8) & 0xff;
 	blue += (p >> 0) & 0xff;
     }
-    return (0xffU << 24) | ((red/npixels) << 16) | ((green/npixels) << 8) | (blue/npixels);
+    return (0xffU << 24)
+	    | (ScaledPixels(red, npixels) << 16)
+	    | (ScaledPixels(green, npixels) << 8)
+	    |  ScaledPixels(blue, npixels);
 }
 
 typedef struct XcursorCoreCursor {
@@ -258,7 +263,7 @@ _XcursorHeckbertMedianCut (const XcursorImage *image, XcursorCoreCursor *core)
     pc = colors;
     max_blue = max_green = max_red = 0;
     min_blue = min_green = min_red = 255;
-    n = npixels;
+    n = (int) npixels;
     while (n--)
     {
 	p = *po++;
@@ -285,7 +290,7 @@ _XcursorHeckbertMedianCut (const XcursorImage *image, XcursorCoreCursor *core)
 	    p = 0;
 	*pn++ = p;
     }
-    ncolors = pc - colors;
+    ncolors = (int) (pc - colors);
 
     /*
      * Compute longest dimension and sort
@@ -297,7 +302,7 @@ _XcursorHeckbertMedianCut (const XcursorImage *image, XcursorCoreCursor *core)
 	compare = _XcursorCompareRed;
     else
 	compare = _XcursorCompareBlue;
-    qsort (colors, ncolors, sizeof (XcursorPixel), compare);
+    qsort (colors, (size_t) ncolors, sizeof (XcursorPixel), compare);
     /*
      * Compute average colors on both sides of the cut
      */
@@ -363,8 +368,8 @@ _XcursorBayerOrderedDither (const XcursorImage *image, XcursorCoreCursor *core)
 	for (x = 0; x < image->width; x++)
 	{
 	    p = *pixel++;
-	    a = ((p >> 24) * DITHER_SIZE + 127) / 255;
-	    i = (_XcursorPixelBrightness (p) * DITHER_SIZE + 127) / 255;
+	    a = (XcursorPixel) (((p >> 24) * DITHER_SIZE + 127) / 255);
+	    i = (XcursorPixel) ((_XcursorPixelBrightness (p) * DITHER_SIZE + 127) / 255);
 	    d = orderedDither[y&(DITHER_DIM-1)][x&(DITHER_DIM-1)];
 	    if (a > d)
 	    {
@@ -398,9 +403,9 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
     unsigned int    npixels = image->width * image->height;
     int		    n;
     int		    right = 1;
-    int		    belowLeft = image->width - 1;
-    int		    below = image->width;
-    int		    belowRight = image->width + 1;
+    int		    belowLeft = (int) (image->width - 1);
+    int		    below = (int) image->width;
+    int		    belowRight = (int) (image->width + 1);
     int		    iError, aError;
     int		    iErrorRight, aErrorRight;
     int		    iErrorBelowLeft, aErrorBelowLeft;
@@ -420,7 +425,7 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
     pixel = image->pixels;
     iP = iPicture;
     aP = aPicture;
-    n = npixels;
+    n = (int) npixels;
     max_inten = 0;
     min_inten = 0xff;
     while (n--)
@@ -501,10 +506,10 @@ _XcursorFloydSteinberg (const XcursorImage *image, XcursorCoreCursor *core)
     free (iPicture);
     core->on_color.red =
     core->on_color.green =
-    core->on_color.blue = (min_inten | min_inten << 8);
+    core->on_color.blue = (unsigned short) (min_inten | min_inten << 8);
     core->off_color.red =
     core->off_color.green =
-    core->off_color.blue = (max_inten | max_inten << 8);
+    core->off_color.blue = (unsigned short) (max_inten | max_inten << 8);
     return True;
 }
 
@@ -560,8 +565,8 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 	GC		    gc;
 	XRenderPictFormat   *format;
 
-	ximage.width = image->width;
-	ximage.height = image->height;
+	ximage.width = (int) image->width;
+	ximage.height = (int) image->height;
 	ximage.xoffset = 0;
 	ximage.format = ZPixmap;
 	ximage.data = (char *) image->pixels;
@@ -571,7 +576,7 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 	ximage.bitmap_pad = 32;
 	ximage.depth = 32;
 	ximage.bits_per_pixel = 32;
-	ximage.bytes_per_line = image->width * 4;
+	ximage.bytes_per_line = (int) (image->width * 4);
 	ximage.red_mask = 0xff0000;
 	ximage.green_mask = 0x00ff00;
 	ximage.blue_mask = 0x0000ff;
@@ -608,12 +613,12 @@ XcursorImageLoadCursor (Display *dpy, const XcursorImage *image)
 				       0, NULL, image->width, image->height,
 				       32, 0);
 	core.src_image->data = Xmalloc (image->height *
-					core.src_image->bytes_per_line);
+					(unsigned) core.src_image->bytes_per_line);
 	core.msk_image = XCreateImage (dpy, NULL, 1, ZPixmap,
 				       0, NULL, image->width, image->height,
 				       32, 0);
 	core.msk_image->data = Xmalloc (image->height *
-					core.msk_image->bytes_per_line);
+					(unsigned) core.msk_image->bytes_per_line);
 
 	switch (info->dither) {
 	case XcursorDitherThreshold:
@@ -708,7 +713,7 @@ XcursorImagesLoadCursor (Display *dpy, const XcursorImages *images)
 
 	if (!cursors)
 	    return 0;
-	anim = malloc (cursors->ncursor * sizeof (XAnimCursor));
+	anim = malloc ((size_t) cursors->ncursor * sizeof (XAnimCursor));
 	if (!anim)
 	{
 	    XcursorCursorsDestroy (cursors);
@@ -777,11 +782,11 @@ _XcursorCreateGlyphCursor(Display	    *dpy,
 
     LockDisplay(dpy);
     GetReq(CreateGlyphCursor, req);
-    cid = req->cid = XAllocID(dpy);
-    req->source = source_font;
-    req->mask = mask_font;
-    req->sourceChar = source_char;
-    req->maskChar = mask_char;
+    cid = req->cid = (CARD32) XAllocID(dpy);
+    req->source = (CARD32) source_font;
+    req->mask = (CARD32) mask_font;
+    req->sourceChar = (CARD16) source_char;
+    req->maskChar = (CARD16) mask_char;
     req->foreRed = foreground->red;
     req->foreGreen = foreground->green;
     req->foreBlue = foreground->blue;

@@ -74,7 +74,7 @@ _XcursorDefaultParseBool (char *v)
 
     c0 = *v;
     if (isupper ((int)c0))
-	c0 = tolower (c0);
+	c0 = (char) tolower (c0);
     if (c0 == 't' || c0 == 'y' || c0 == '1')
 	return 1;
     if (c0 == 'f' || c0 == 'n' || c0 == '0')
@@ -83,7 +83,7 @@ _XcursorDefaultParseBool (char *v)
     {
 	c1 = v[1];
 	if (isupper ((int)c1))
-	    c1 = tolower (c1);
+	    c1 = (char) tolower (c1);
 	if (c1 == 'n')
 	    return 1;
 	if (c1 == 'f')
