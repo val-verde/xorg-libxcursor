@@ -24,6 +24,10 @@
 .ns
 .TP \\$1
 ..
+.ie \n(.g .ds `` \(lq
+.el       .ds `` ``
+.ie \n(.g .ds '' \(rq
+.el       .ds '' ''
 .TH XCURSOR __libmansuffix__ __xorgversion__ "Keith Packard"
 
 .SH NAME
@@ -370,11 +374,101 @@ char *XcursorGetTheme (Display *dpy)
 Gets the current theme name.
 
 .SH "ENVIRONMENT VARIABLES"
+Environment variables can be used to override resource settings,
+which in turn override compiled-in default values.
+.PP
+Some of the environment variables recognized by Xcursor are booleans,
+specified as follows:
+.RS 3
+.TP 5
+\fItrue\fP for \*(``t\*('', \*(``1\*('', \*(``y\*('' or \*(``on\*(''
+.TP 5
+\fIfalse\fP for \*(``f\*('', \*(``0\*('', \*(``n\*('' or \*(``off\*(''
+.RE
+.PP
+Xcursor ignores other values for these booleans.
+.TP 15
+.B HOME
+Xcursor interprets \*(``~\*('' in the search list as the home directory,
+using this variable rather than the password database.
+.TP 15
+.B XCURSOR_ANIM
+If the display supports the Render CreateCursor request,
+and the Render feature is enabled,
+disable \fIanimated\fP cursors if the environment variable is \fIfalse\fP.
+.IP
+If the environment variable is not given,
+Xcursor uses the resource \fBXcursor.anim\fP.
+.TP 15
+.B XCURSOR_CORE
+If the display supports the Render CreateCursor request
+disable the Render feature if the environment variable is \fIfalse\fP.
+.IP
+If the environment variable is not given,
+Xcursor uses the resource \fBXcursor.core\fP.
+.TP 15
+.B XCURSOR_DISCOVER
+If the variable is set, Xcursor turns on a logging feature.
+It displays the hash value and the image so that users can see which
+cursor name is associated with each image.
+.IP
+There is no corresponding resource setting.
+.TP 15
+.B XCURSOR_DITHER
+This variable sets the desired \fIdither\fP.
+.IP
+If the environment variable is not given,
+Xcursor uses the resource \fBXcursor.dither\fP.
+.IP
+If neither environment variable or resource is found,
+Xcursor uses \*(``threshold\*(''
+.IP
+These are the recognized values:
+.RS 18
+.TP 5
+.B diffuse
+.TP 5
+.B median
+.TP 5
+.B ordered
+.TP 5
+.B threshold
+.RE
 .TP 15
 .B XCURSOR_PATH
-This variable sets the list of paths to look for cursors in.
+This variable sets the list of paths to look for cursors in,
+rather than the compiled-in default list.
+.IP
 Directories in this path are separated by colons (:).
-
+.TP 15
+.B XCURSOR_SIZE
+This variable sets the desired cursor size, in pixels.
+.IP
+If the environment variable is not given,
+Xcursor tries the resource \fBXcursor.size\fP.
+.IP
+If no size is given, whether by environment variable or resource setting,
+Xcursor next tries the \fBXft.dpi\fP resource setting to guess
+the size of a 16-point cursor.
+.IP
+Finally, if \fBXft.dpi\fP is not set,
+Xcursor uses the display height,
+dividing by 48 (assuming that the height is 768).
+.TP 15
+.B XCURSOR_THEME
+This variable selects the desired \fItheme\fP.
+.IP
+If the environment variable is not given,
+Xcursor tries the resource \fBXcursor.theme\fP.
+.IP
+If neither environment variable or resource is found,
+Xcursor uses the \fIdefault\fP theme.
+.TP 15
+.B XCURSOR_THEME_CORE
+Enables themes for core cursors if the environment variable is \fItrue\fP.
+.IP
+If the environment variable is not given,
+Xcursor tries the resource \fBXcursor.theme_core\fP.
 .SH RESTRICTIONS
 .B Xcursor
 will probably change radically in the future; weak attempts will be made to
