@@ -16,6 +16,13 @@ Xcursor_shadows =			\
 	XcursorXcFileLoadAllImages	\
 	XcursorXcFileLoad		\
 	XcursorXcFileSave		\
+	XcursorFileLoad			\
+	XcursorFileLoadAllImages	\
+	XcursorFileLoadImage		\
+	XcursorFileLoadImages		\
+	XcursorFileSave			\
+	XcursorFileSaveImages		\
+	XcursorFilenameLoadCursors	\
 	XcursorFilenameLoadImage	\
 	XcursorFilenameLoadImages	\
 	XcursorFilenameLoadAllImages	\

@@ -22,12 +22,14 @@
 .de NS
 .br
 .ns
-.na
 .TP \\$1
+.na
+.nf
 ..
 .de NE
 .br
 .ad
+.fi
 ..
 .ie \n(.g .ds `` \(lq
 .el       .ds `` ``
@@ -250,132 +252,196 @@ versions.
 .SH FUNCTIONS
 
 .SS Object Management
-.TP
+.NS
 XcursorImage *XcursorImageCreate (int width, int height)
 .NS
 void XcursorImageDestroy (XcursorImage *image)
+.NE
 Allocate and free images.  On allocation, the hotspot and the pixels are
 left uninitialized.  The size is set to the maximum of width and height.
 
-.TP
+.NS
 XcursorImages *XcursorImagesCreate (int size)
 .NS
 void XcursorImagesDestroy (XcursorImages *images)
+.NE
 Allocate and free arrays to hold multiple cursor images.  On allocation,
 nimage is set to zero.
 
-.TP
+.NS
 XcursorCursors *XcursorCursorsCreate (Display *dpy, int size)
 .NS
 void XcursorCursorsDestroy (XcursorCursors *cursors)
+.NE
 Allocate and free arrays to hold multiple cursors.  On allocation,
 ncursor is set to zero, ref is set to one.
 
 .SS Reading and writing images.
 
-.TP
+.NS
 XcursorImage *XcursorXcFileLoadImage (XcursorFile *file, int size)
 .NS
 XcursorImages *XcursorXcFileLoadImages (XcursorFile *file, int size)
 .NS
 XcursorImages *XcursorXcFileLoadAllImages (XcursorFile *file)
 .NS
-XcursorBool XcursorXcFileLoad (XcursorFile *file, XcursorComments **commentsp, XcursorImages **imagesp)
+XcursorBool XcursorXcFileLoad (
+	XcursorFile *file,
+	XcursorComments **commentsp,
+	XcursorImages **imagesp)
 .NS
-XcursorBool XcursorXcFileSave (XcursorFile *file, const XcursorComments *comments, const XcursorImages *images)
+XcursorBool XcursorXcFileSave (
+	XcursorFile *file,
+	const XcursorComments *comments,
+	const XcursorImages *images)
+.NE
 These read and write cursors from an XcursorFile handle.  After reading, the
 file pointer will be left at some random place in the file.
 
-.TP
+.NS
 XcursorImage *XcursorFileLoadImage (FILE *file, int size)
 .NS
 XcursorImages *XcursorFileLoadImages (FILE *file, int size)
 .NS
 XcursorImages *XcursorFileLoadAllImages (FILE *file)
 .NS
-XcursorBool XcursorFileLoad (FILE *file, XcursorComments **commentsp, XcursorImages **imagesp)
+XcursorBool XcursorFileLoad (FILE *file,
+	XcursorComments **commentsp,
+	XcursorImages **imagesp)
 .NS
-XcursorBool XcursorFileSaveImages (FILE *file, const XcursorImages *images)
+XcursorBool XcursorFileSaveImages (FILE *file,
+	const XcursorImages *images)
 .NS
-XcursorBool XcursorFileSave (FILE * file, const XcursorComments *comments, const XcursorImages *images)
+XcursorBool XcursorFileSave (
+	FILE * file,
+	const XcursorComments *comments,
+	const XcursorImages *images)
+.NE
 These read and write cursors from a stdio FILE handle.  Writing flushes
 before returning so that any errors should be detected.
 
-.TP
-XcursorImage *XcursorFilenameLoadImage (const char *filename, int size)
 .NS
-XcursorImages *XcursorFilenameLoadImages (const char *filename, int size)
+XcursorImage *XcursorFilenameLoadImage (
+	const char *filename,
+	int size)
+.NS
+XcursorImages *XcursorFilenameLoadImages (
+	const char *filename,
+	int size)
 .NS
 XcursorImages *XcursorFilenameLoadAllImages (FILE *file)
 .NS
-XcursorBool XcursorFilenameLoad (const char *file, XcursorComments **commentsp, XcursorImages **imagesp)
+XcursorBool XcursorFilenameLoad (
+	const char *file,
+	XcursorComments **commentsp,
+	XcursorImages **imagesp)
 .NS
-XcursorBool XcursorFilenameSaveImages (const char *filename, const XcursorImages *images)
+XcursorBool XcursorFilenameSaveImages (
+	const char *filename,
+	const XcursorImages *images)
 .NS
-XcursorBool XcursorFilenameSave (const char *file, const XcursorComments *comments, const XcursorImages *images)
+XcursorBool XcursorFilenameSave (
+	const char *file,
+	const XcursorComments *comments,
+	const XcursorImages *images)
+.NE
 These parallel the stdio FILE interfaces above, but take filenames.
 
 .SS Reading library images
-.TP
-XcursorImage *XcursorLibraryLoadImage (const char *name, const char *theme, int size)
 .NS
-XcursorImages *XcursorLibraryLoadImages (const char *name, const char *theme, int size)
+XcursorImage *XcursorLibraryLoadImage (
+	const char *name,
+	const char *theme,
+	int size)
+.NS
+XcursorImages *XcursorLibraryLoadImages (
+	const char *name,
+	const char *theme,
+	int size)
+.NE
 These search the library path, loading the first file found.  If 'theme' is
 not NULL, these functions first try appending -theme to name and then
 name alone.
 
 .SS Cursor APIs
 
-.TP
-Cursor XcursorFilenameLoadCursor (Display *dpy, const char *file)
 .NS
-XcursorCursors *XcursorFilenameLoadCursors (Display *dpy, const char *file)
+Cursor XcursorFilenameLoadCursor (
+	Display *dpy,
+	const char *file)
+.NS
+XcursorCursors *XcursorFilenameLoadCursors (
+	Display *dpy,
+	const char *file)
+.NE
 These load cursors from the specified file.
 
-.TP
-Cursor XcursorLibraryLoadCursor (Display *dpy, const char *name)
 .NS
-XcursorCursors *XcursorLibraryLoadCursors (Display *dpy, const char *name)
+Cursor XcursorLibraryLoadCursor (
+	Display *dpy,
+	const char *name)
+.NS
+XcursorCursors *XcursorLibraryLoadCursors (
+	Display *dpy,
+	const char *name)
+.NE
 These load cursors using the specified library name.  The theme
 comes from the display.
 
 .SS X Cursor Name APIs
 
-.TP
-XcursorImage *XcursorShapeLoadImage (unsigned int shape, const char *theme, int size)
 .NS
-XcursorImages *XcursorShapeLoadImages (unsigned int shape, const char *theme, int size)
+XcursorImage *XcursorShapeLoadImage (
+	unsigned int shape,
+	const char *theme,
+	int size)
+.NS
+XcursorImages *XcursorShapeLoadImages (
+	unsigned int shape,
+	const char *theme,
+	int size)
+.NE
 These map 'shape' to a library name using the standard X cursor names and
 then load the images.
 
-.TP
-Cursor XcursorShapeLoadCursor (Display *dpy, unsigned int shape)
 .NS
-XcursorCursors *XcursorShapeLoadCursors (Display *dpy, unsigned int shape)
+Cursor XcursorShapeLoadCursor (
+	Display *dpy,
+	unsigned int shape)
+.NS
+XcursorCursors *XcursorShapeLoadCursors (
+	Display *dpy,
+	unsigned int shape)
+.NE
 These map 'shape' to a library name and then load the cursors.
 
 .SS Display Information APIs
 
-.TP
+.NS
 XcursorBool XcursorSupportsARGB (Display *dpy)
+.NE
 Returns whether the display supports ARGB cursors or whether cursors will be
 mapped to a core X cursor.
 
-.TP
+.NS
 XcursorBool XcursorSetDefaultSize (Display *dpy, int size)
+.NE
 Sets the default size for cursors on the specified display. When loading
 cursors, those whose nominal size is closest to this size will be preferred.
 
-.TP
+.NS
 int XcursorGetDefaultSize (Display *dpy)
+.NE
 Gets the default cursor size.
 
-.TP
+.NS
 XcursorBool XcursorSetTheme (Display *dpy, const char *theme)
+.NE
 Sets the current theme name.
 
-.TP
+.NS
 char *XcursorGetTheme (Display *dpy)
+.NE
 Gets the current theme name.
 
 .SH "ENVIRONMENT VARIABLES"
