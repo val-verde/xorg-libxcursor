@@ -19,17 +19,22 @@
 .\" TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR
 .\" PERFORMANCE OF THIS SOFTWARE.
 .\"
-.de TQ
+.de NS
 .br
 .ns
+.na
 .TP \\$1
+..
+.de NE
+.br
+.ad
 ..
 .ie \n(.g .ds `` \(lq
 .el       .ds `` ``
 .ie \n(.g .ds '' \(rq
 .el       .ds '' ''
 .TH XCURSOR __libmansuffix__ __xorgversion__ "Keith Packard"
-
+.hy 0
 .SH NAME
 XCURSOR \- Cursor management library
 
@@ -247,21 +252,21 @@ versions.
 .SS Object Management
 .TP
 XcursorImage *XcursorImageCreate (int width, int height)
-.TQ
+.NS
 void XcursorImageDestroy (XcursorImage *image)
 Allocate and free images.  On allocation, the hotspot and the pixels are
 left uninitialized.  The size is set to the maximum of width and height.
 
 .TP
 XcursorImages *XcursorImagesCreate (int size)
-.TQ
+.NS
 void XcursorImagesDestroy (XcursorImages *images)
 Allocate and free arrays to hold multiple cursor images.  On allocation,
 nimage is set to zero.
 
 .TP
 XcursorCursors *XcursorCursorsCreate (Display *dpy, int size)
-.TQ
+.NS
 void XcursorCursorsDestroy (XcursorCursors *cursors)
 Allocate and free arrays to hold multiple cursors.  On allocation,
 ncursor is set to zero, ref is set to one.
@@ -270,50 +275,50 @@ ncursor is set to zero, ref is set to one.
 
 .TP
 XcursorImage *XcursorXcFileLoadImage (XcursorFile *file, int size)
-.TQ
+.NS
 XcursorImages *XcursorXcFileLoadImages (XcursorFile *file, int size)
-.TQ
+.NS
 XcursorImages *XcursorXcFileLoadAllImages (XcursorFile *file)
-.TQ
+.NS
 XcursorBool XcursorXcFileLoad (XcursorFile *file, XcursorComments **commentsp, XcursorImages **imagesp)
-.TQ
+.NS
 XcursorBool XcursorXcFileSave (XcursorFile *file, const XcursorComments *comments, const XcursorImages *images)
 These read and write cursors from an XcursorFile handle.  After reading, the
 file pointer will be left at some random place in the file.
 
 .TP
 XcursorImage *XcursorFileLoadImage (FILE *file, int size)
-.TQ
+.NS
 XcursorImages *XcursorFileLoadImages (FILE *file, int size)
-.TQ
+.NS
 XcursorImages *XcursorFileLoadAllImages (FILE *file)
-.TQ
+.NS
 XcursorBool XcursorFileLoad (FILE *file, XcursorComments **commentsp, XcursorImages **imagesp)
-.TQ
+.NS
 XcursorBool XcursorFileSaveImages (FILE *file, const XcursorImages *images)
-.TQ
+.NS
 XcursorBool XcursorFileSave (FILE * file, const XcursorComments *comments, const XcursorImages *images)
 These read and write cursors from a stdio FILE handle.  Writing flushes
 before returning so that any errors should be detected.
 
 .TP
 XcursorImage *XcursorFilenameLoadImage (const char *filename, int size)
-.TQ
+.NS
 XcursorImages *XcursorFilenameLoadImages (const char *filename, int size)
-.TQ
+.NS
 XcursorImages *XcursorFilenameLoadAllImages (FILE *file)
-.TQ
+.NS
 XcursorBool XcursorFilenameLoad (const char *file, XcursorComments **commentsp, XcursorImages **imagesp)
-.TQ
+.NS
 XcursorBool XcursorFilenameSaveImages (const char *filename, const XcursorImages *images)
-.TQ
+.NS
 XcursorBool XcursorFilenameSave (const char *file, const XcursorComments *comments, const XcursorImages *images)
 These parallel the stdio FILE interfaces above, but take filenames.
 
 .SS Reading library images
 .TP
 XcursorImage *XcursorLibraryLoadImage (const char *name, const char *theme, int size)
-.TQ
+.NS
 XcursorImages *XcursorLibraryLoadImages (const char *name, const char *theme, int size)
 These search the library path, loading the first file found.  If 'theme' is
 not NULL, these functions first try appending -theme to name and then
@@ -323,13 +328,13 @@ name alone.
 
 .TP
 Cursor XcursorFilenameLoadCursor (Display *dpy, const char *file)
-.TQ
+.NS
 XcursorCursors *XcursorFilenameLoadCursors (Display *dpy, const char *file)
 These load cursors from the specified file.
 
 .TP
 Cursor XcursorLibraryLoadCursor (Display *dpy, const char *name)
-.TQ
+.NS
 XcursorCursors *XcursorLibraryLoadCursors (Display *dpy, const char *name)
 These load cursors using the specified library name.  The theme
 comes from the display.
@@ -338,14 +343,14 @@ comes from the display.
 
 .TP
 XcursorImage *XcursorShapeLoadImage (unsigned int shape, const char *theme, int size)
-.TQ
+.NS
 XcursorImages *XcursorShapeLoadImages (unsigned int shape, const char *theme, int size)
 These map 'shape' to a library name using the standard X cursor names and
 then load the images.
 
 .TP
 Cursor XcursorShapeLoadCursor (Display *dpy, unsigned int shape)
-.TQ
+.NS
 XcursorCursors *XcursorShapeLoadCursors (Display *dpy, unsigned int shape)
 These map 'shape' to a library name and then load the cursors.
 
