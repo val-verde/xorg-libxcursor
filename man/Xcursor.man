@@ -31,6 +31,10 @@
 .ad
 .fi
 ..
+.de bP
+.ie n  .IP \(bu 4
+.el    .IP \(bu 2
+..
 .ie \n(.g .ds `` \(lq
 .el       .ds `` ``
 .ie \n(.g .ds '' \(rq
@@ -187,7 +191,8 @@ value containing ARGB with A in the high byte.
 
 .TP
 .B XcursorImages
-holds multiple XcursorImage structures.  They're all freed when the
+holds multiple XcursorImage structures.
+They are all freed when the
 XcursorImages is freed.
 .sp
 .nf
@@ -362,12 +367,30 @@ XcursorImage *XcursorLibraryLoadImage (
 XcursorImages *XcursorLibraryLoadImages (
 	const char *\fIname\fP,
 	const char *\fItheme\fP,
-	int size)
+	int \fIsize\fP)
 .NE
-These search the library path, loading the first file found.
-If \fItheme\fP is not NULL,
-these functions first try appending -theme to \fIname\fP and
-then \fIname\fP alone.
+These search the library path, loading the first file found
+of the desired \fIsize\fP,
+using a private function (XcursorScanTheme) to find the appropriate theme:
+.RS
+.bP
+If \fItheme\fP is not NULL, use that.
+.bP
+If \fItheme\fP is NULL, or if there was no match for the desired theme,
+use \*(``default\*('' for the theme name.
+.bP
+If neither search succeeds,
+these functions return NULL.
+.RE
+.IP
+The two functions differ by more than the number of images loaded:
+.RS
+.bP
+XcursorLibraryLoadImage calls XcursorFileLoadImage but
+.bP
+XcursorLibraryLoadImages calls XcursorFileLoadImages and
+on success calls XcursorImagesSetName to associate \fIname\fP with the result.
+.RE
 
 .SS Cursor APIs
 
