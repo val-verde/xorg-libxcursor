@@ -329,7 +329,7 @@ XcursorImages *XcursorFilenameLoadImages (
 	const char *filename,
 	int size)
 .NS
-XcursorImages *XcursorFilenameLoadAllImages (FILE *file)
+XcursorImages *XcursorFilenameLoadAllImages (const char *file)
 .NS
 XcursorBool XcursorFilenameLoad (
 	const char *file,
