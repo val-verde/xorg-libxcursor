@@ -473,6 +473,17 @@ char *XcursorGetTheme (Display *\fIdpy\fP)
 .NE
 Gets the current theme name.
 
+.NS
+XcursorBool XcursorGetThemeCore (
+	Display *\fIdpy\fP)
+.NS
+XcursorBool XcursorSetThemeCore (
+	Display *\fIdpy\fP,
+	XcursorBool \fItheme_core\fP)
+.NE
+Get or set property which tells Xcurses whether to 
+enable themes for core cursors.
+
 .SH "ENVIRONMENT VARIABLES"
 Environment variables can be used to override resource settings,
 which in turn override compiled-in default values.
@@ -545,7 +556,7 @@ Directories in this path are separated by colons (:).
 This variable sets the desired cursor size, in pixels.
 .IP
 If the environment variable is not given,
-Xcursor tries the resource \fBXcursor.size\fP.
+Xcursor tries the \fBXcursor.size\fP resource.
 .IP
 If no size is given, whether by environment variable or resource setting,
 Xcursor next tries the \fBXft.dpi\fP resource setting to guess
@@ -559,7 +570,7 @@ dividing by 48 (assuming that the height is 768).
 This variable selects the desired \fItheme\fP.
 .IP
 If the environment variable is not given,
-Xcursor tries the resource \fBXcursor.theme\fP.
+Xcursor tries the \fBXcursor.theme\fP resource.
 .IP
 If neither environment variable or resource is found,
 Xcursor uses the \fIdefault\fP theme.
@@ -568,7 +579,9 @@ Xcursor uses the \fIdefault\fP theme.
 Enables themes for core cursors if the environment variable is \fItrue\fP.
 .IP
 If the environment variable is not given,
-Xcursor tries the resource \fBXcursor.theme_core\fP.
+Xcursor tries the \fBXcursor.theme_core\fP resource.
+.IP
+An application can enable or disable themes using XcursorSetThemeCore.
 .SH RESTRICTIONS
 .B Xcursor
 will probably change radically in the future; weak attempts will be made to
