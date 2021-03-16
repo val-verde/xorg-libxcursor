@@ -392,6 +392,33 @@ XcursorLibraryLoadImages calls XcursorFileLoadImages and
 on success calls XcursorImagesSetName to associate \fIname\fP with the result.
 .RE
 
+.SS Library attributes
+.NS
+const char * XcursorLibraryPath (void)
+.NE
+Returns the library search path:
+.RS
+.bP
+If the environment variable \fBXCURSOR_PATH\fP is set,
+return that value.
+.bP
+Otherwise, return the compiled-in search path.
+.RE
+
+.NS
+int XcursorLibraryShape (const char *\fIlibrary\fP)
+.NE
+Search Xcursor's table of cursor font names for the given
+\*(``shape name\*('' (\fIlibrary\fP):
+.RS
+.bP
+If found, return the index into that table,
+multiplied by two (to account for the source- and mask-values
+used in an X cursor font).
+.bP
+If not found, return -1.
+.RE
+
 .SS Cursor APIs
 
 .NS
@@ -547,7 +574,7 @@ These are the recognized values:
 .RE
 .TP 15
 .B XCURSOR_PATH
-This variable sets the list of paths to look for cursors in,
+This variable sets the list of paths in which to search for cursors,
 rather than the compiled-in default list.
 .IP
 Directories in this path are separated by colons (:).
