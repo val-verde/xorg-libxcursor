@@ -157,9 +157,11 @@ Images look like:
 
 .SS THEMES
 Xcursor (mostly) follows the freedesktop.org spec for theming icons.  The
-default search path it uses is __XCURSORPATH__.  Within each of these
-directories, it searches for a directory using the theme name.  Within the
-theme directory, it looks for cursor files in the 'cursors' subdirectory.
+default search path it uses is __XCURSORPATH__.
+Within each of these directories,
+it searches for a directory using the theme name.
+Within the theme directory,
+it looks for cursor files in the \*(``cursors\*('' subdirectory.
 It uses the first cursor file found along  the path.
 .PP
 If necessary, Xcursor also looks for a "index.theme" file in each theme
@@ -167,7 +169,7 @@ directory to find inherited themes and searches along the path for those
 themes as well.
 .PP
 If no theme is set, or if no cursor is found for the specified theme,
-Xcursor checks the "default" theme.
+Xcursor checks the \*(``default\*('' theme.
 
 .SH DATATYPES
 
@@ -609,6 +611,14 @@ If the environment variable is not given,
 Xcursor tries the \fBXcursor.theme_core\fP resource.
 .IP
 An application can enable or disable themes using XcursorSetThemeCore.
+
+.SH SEE ALSO
+XCreateFontCursor(3)
+.PP
+as well as
+.IP
+https://specifications.freedesktop.org/icon-theme-spec/
+
 .SH RESTRICTIONS
 .B Xcursor
 will probably change radically in the future; weak attempts will be made to
