@@ -262,29 +262,76 @@ versions.
 
 .SS Object Management
 .NS
-XcursorImage *XcursorImageCreate (int \fIwidth\fP, int \fIheight\fP)
+XcursorImage *XcursorImageCreate (
+	int \fIwidth\fP,
+	int \fIheight\fP)
 .NS
-void XcursorImageDestroy (XcursorImage *\fIimage\fP)
+void XcursorImageDestroy (
+	XcursorImage *\fIimage\fP)
 .NE
 Allocate and free images.  On allocation, the hotspot and the pixels are
 left uninitialized.
 The size is set to the maximum of \fIwidth\fP and \fIheight\fP.
 
 .NS
-XcursorImages *XcursorImagesCreate (int \fIsize\fP)
+XcursorImages *XcursorImagesCreate (
+	int \fIsize\fP)
 .NS
-void XcursorImagesDestroy (XcursorImages *\fIimages\fP)
+void XcursorImagesDestroy (
+	XcursorImages *\fIimages\fP)
 .NE
 Allocate and free arrays to hold multiple cursor images.  On allocation,
 \fInimage\fP is set to zero.
 
 .NS
-XcursorCursors *XcursorCursorsCreate (Display *\fIdpy\fP, int \fIsize\fP)
+XcursorCursors *XcursorCursorsCreate (
+	Display *\fIdpy\fP,
+	int \fIsize\fP)
 .NS
-void XcursorCursorsDestroy (XcursorCursors *\fIcursors\fP)
+void XcursorCursorsDestroy (
+	XcursorCursors *\fIcursors\fP)
 .NE
 Allocate and free arrays to hold multiple cursors.  On allocation,
 \fIncursor\fP is set to zero, \fIref\fP is set to one.
+
+.SS Reading cursors.
+
+.NS
+Cursor XcursorImageLoadCursor(
+	Display *dpy,
+	const XcursorImage *image)
+.NE
+This creates a cursor, given the image to display.
+It calls XcursorSupportsARGB to decide what type of cursor to create:
+.RS
+.bP
+XRenderCreateCursor is used if ARGB is supported on the display, and
+.bP
+XCreatePixmapCursor is used otherwise.
+.RE
+
+.NS
+Cursor XcursorImagesLoadCursor(
+	Display *dpy,
+	const XcursorImages *images)
+.NE
+This provides an interface for creating animated cursors,
+if the \fIimages\fP array contains multiple images, and
+if XcursorSupportsAnim returns true.
+Otherwise, it calls XcursorImageLoadCursor.
+
+.NS
+XcursorCursors *XcursorImagesLoadCursors(
+	Display *dpy,
+	const XcursorImages *images)
+.NE
+This calls XcursorCursorsCreate to create an array of XcursorCursors,
+to correspond to the XcursorImages \fIimages\fP array,
+and uses XcursorImageLoadCursor to load the corresponding cursor data.
+.IP
+Normally it returns the resulting array pointer.
+On any failure, it discards the result XcursorCursorsDestroy,
+and returns NULL.
 
 .SS Reading and writing images.
 
@@ -613,6 +660,8 @@ Xcursor tries the \fBXcursor.theme_core\fP resource.
 An application can enable or disable themes using XcursorSetThemeCore.
 
 .SH SEE ALSO
+XCreateRenderCursor(3),
+XCreatePixmapCursor(3), and
 XCreateFontCursor(3)
 .PP
 as well as
