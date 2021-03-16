@@ -660,9 +660,9 @@ Xcursor tries the \fBXcursor.theme_core\fP resource.
 An application can enable or disable themes using XcursorSetThemeCore.
 
 .SH SEE ALSO
-XCreateRenderCursor(3),
-XCreatePixmapCursor(3), and
-XCreateFontCursor(3)
+XCreateRenderCursor(__libmansuffix__),
+XCreatePixmapCursor(__libmansuffix__), and
+XCreateFontCursor(__libmansuffix__)
 .PP
 as well as
 .IP

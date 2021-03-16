@@ -34,6 +34,7 @@
 use strict;
 use warnings;
 
+our $opt_v;
 our %man_links;
 
 sub read_file($) {
@@ -75,7 +76,8 @@ sub scan_man($) {
     for my $n ( 0 .. $#data ) {
         if ( $last =~ /^\.NS\b/ ) {
             my $name = $data[$n];
-            $name =~ s/^\s*\w+\s*[*]*\s*(\w+)\b.*/$1/;
+            $name =~ s/^(const)?\s*\w+\s*[*]*\s*(\w+)\b.*/$2/;
+	    printf STDERR "MAP '%s' -> '%s'\n", $data[$n], $name if ( $opt_v );
             &make_man_link($name);
         }
         $last = $data[$n];
