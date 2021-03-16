@@ -185,7 +185,7 @@ Inherits = \fItheme-name\fP
 Xcursor uses the first inherited \fItheme-name\fP,
 ignoring others which may exist in a given \*(``index.theme\*('' file.
 If it finds an inherited them, Xcursor searches along the path to use
-those as well.
+that as well.
 Xcursor ignores other \fIkeys\fP in the \*(``index.theme\*('' file,
 including \*(``Name\*('' (i.e., the name which a graphical
 application may use as the \fIpresentation name\fP).
@@ -321,44 +321,6 @@ void XcursorCursorsDestroy (
 Allocate and free arrays to hold multiple cursors.  On allocation,
 \fIncursor\fP is set to zero, \fIref\fP is set to one.
 .
-.SS Reading cursors.
-.
-.NS
-Cursor XcursorImageLoadCursor(
-	Display *dpy,
-	const XcursorImage *image)
-.NE
-This creates a cursor, given the image to display.
-It calls XcursorSupportsARGB to decide what type of cursor to create:
-.RS
-.bP
-XRenderCreateCursor is used if ARGB is supported on the display, and
-.bP
-XCreatePixmapCursor is used otherwise.
-.RE
-.
-.NS
-Cursor XcursorImagesLoadCursor(
-	Display *dpy,
-	const XcursorImages *images)
-.NE
-This provides an interface for creating animated cursors,
-if the \fIimages\fP array contains multiple images, and
-if XcursorSupportsAnim returns true.
-Otherwise, it calls XcursorImageLoadCursor.
-.
-.NS
-XcursorCursors *XcursorImagesLoadCursors(
-	Display *dpy,
-	const XcursorImages *images)
-.NE
-This calls XcursorCursorsCreate to create an array of XcursorCursors,
-to correspond to the XcursorImages \fIimages\fP array,
-and uses XcursorImageLoadCursor to load the corresponding cursor data.
-.IP
-Normally it returns the resulting array pointer.
-On any failure, it discards the result XcursorCursorsDestroy,
-and returns NULL.
 .
 .SS Reading and writing images.
 .
@@ -520,6 +482,43 @@ XcursorCursors *XcursorLibraryLoadCursors (
 These load cursors using the specified library \fIname\fP.  The theme
 comes from the display.
 .
+.NS
+Cursor XcursorImageLoadCursor(
+	Display *dpy,
+	const XcursorImage *image)
+.NE
+This creates a cursor, given the image to display.
+It calls XcursorSupportsARGB to decide what type of cursor to create:
+.RS
+.bP
+XRenderCreateCursor is used if ARGB is supported on the display, and
+.bP
+XCreatePixmapCursor is used otherwise.
+.RE
+.
+.NS
+Cursor XcursorImagesLoadCursor(
+	Display *dpy,
+	const XcursorImages *images)
+.NE
+This provides an interface for creating animated cursors,
+if the \fIimages\fP array contains multiple images, and
+if XcursorSupportsAnim returns true.
+Otherwise, it calls XcursorImageLoadCursor.
+.
+.NS
+XcursorCursors *XcursorImagesLoadCursors(
+	Display *dpy,
+	const XcursorImages *images)
+.NE
+This calls XcursorCursorsCreate to create an array of XcursorCursors,
+to correspond to the XcursorImages \fIimages\fP array,
+and uses XcursorImageLoadCursor to load the corresponding cursor data.
+.IP
+Normally it returns the resulting array pointer.
+On any failure, it discards the result XcursorCursorsDestroy,
+and returns NULL.
+.
 .SS X Cursor Name APIs
 .
 .NS
@@ -546,6 +545,32 @@ XcursorCursors *XcursorShapeLoadCursors (
 	unsigned int \fIshape\fP)
 .NE
 These map \fIshape\fP to a library name and then load the cursors.
+.
+.SS Animated Cursors
+.NS
+XcursorAnimate * XcursorAnimateCreate (
+	XcursorCursors *cursors)
+.NE
+Wrap the given array of cursors in a newly allocated XcursorAnimate structure,
+which adds a sequence number used in XcursorAnimateNext.
+.
+.NS
+void XcursorAnimateDestroy (
+	XcursorAnimate *animate)
+.NE
+Discards the given \fIanimate\fP data,
+freeing both the XcursorCursors array of cursors
+as well as the XcursorAnimate structure.
+.
+.NS
+Cursor XcursorAnimateNext (
+	XcursorAnimate *animate)
+.NE
+Cyclically returns the next Cursor in the array,
+incrementing the sequence number to prepare for the next call.
+.IP
+The caller is responsible for displaying the series of Cursor images.
+Xcursor does not do that.
 .
 .SS Display Information APIs
 .

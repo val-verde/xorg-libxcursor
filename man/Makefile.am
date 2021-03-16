@@ -5,6 +5,9 @@ libman_PRE =				\
 	$(Xcursor_shadows:=.man)
 
 Xcursor_shadows =			\
+	XcursorAnimateCreate		\
+	XcursorAnimateDestroy		\
+	XcursorAnimateNext		\
 	XcursorCursorsCreate		\
 	XcursorCursorsDestroy		\
 	XcursorFileLoad			\
