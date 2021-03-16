@@ -20,7 +20,7 @@
 .\" PERFORMANCE OF THIS SOFTWARE.
 .\"
 .de NS
-.br
+.sp
 .ns
 .TP \\$1
 .na
@@ -30,6 +30,7 @@
 .br
 .ad
 .fi
+.sp
 ..
 .de bP
 .ie n  .IP \(bu 4
@@ -43,7 +44,7 @@
 .hy 0
 .SH NAME
 XCURSOR \- Cursor management library
-
+.
 .SH SYNOPSIS
 .nf
 .B #include <X11/Xcursor/Xcursor.h>
@@ -56,7 +57,7 @@ A library of common cursors exists which
 map to the standard X cursor names.
 Cursors can exist in several sizes and
 the library automatically picks the best size.
-
+.
 .SH FUNCTIONAL OVERVIEW
 Xcursor is built in a couple of layers; at the bottom layer is code which
 can load cursor images from files.  Above that is a layer which locates
@@ -66,7 +67,7 @@ standard X cursors.  When using images loaded from files, Xcursor prefers
 to use the Render extension CreateCursor request if supported by the X
 server.  Where not supported, Xcursor maps the cursor image to a standard X
 cursor and uses the core CreateCursor request.
-
+.
 .SS CURSOR FILES
 Xcursor defines a new format for cursors on disk.  Each file holds
 one or more cursor images.  Each cursor image is tagged with a nominal size
@@ -154,7 +155,7 @@ Images look like:
 .br
 \fIpixels\fP\^: LISTofCARD32 Packed ARGB format pixels
 .in -.2i
-
+.
 .SS THEMES
 Xcursor (mostly) follows the freedesktop.org spec for theming icons.  The
 default search path it uses is __XCURSORPATH__.
@@ -170,9 +171,9 @@ themes as well.
 .PP
 If no theme is set, or if no cursor is found for the specified theme,
 Xcursor checks the \*(``default\*('' theme.
-
+.
 .SH DATATYPES
-
+.
 .TP
 .B XcursorImage
 holds a single cursor image in memory.  Each pixel in the cursor is a 32-bit
@@ -190,7 +191,7 @@ value containing ARGB with A in the high byte.
     } XcursorImage;
 .ft
 .fi
-
+.
 .TP
 .B XcursorImages
 holds multiple XcursorImage structures.
@@ -205,7 +206,7 @@ XcursorImages is freed.
     } XcursorImages;
 .ft
 .fi
-
+.
 .TP
 .B XcursorCursors
 Holds multiple Cursor objects.  They're all freed when the XcursorCursors is
@@ -222,7 +223,7 @@ structures can use the same XcursorCursors.
     } XcursorCursors;
 .ft
 .fi
-
+.
 .TP
 .B XcursorAnimate
 References a set of cursors and a sequence within that set.  Multiple
@@ -237,7 +238,7 @@ holds a reference which is removed when the XcursorAnimate is freed.
     } XcursorAnimate;
 .ft
 .fi
-
+.
 .TP
 .B XcursorFile
 Xcursor provides an abstract API for accessing the file data.  Xcursor
@@ -257,9 +258,9 @@ versions.
     };
 .ft
 .fi
-
+.
 .SH FUNCTIONS
-
+.
 .SS Object Management
 .NS
 XcursorImage *XcursorImageCreate (
@@ -272,7 +273,7 @@ void XcursorImageDestroy (
 Allocate and free images.  On allocation, the hotspot and the pixels are
 left uninitialized.
 The size is set to the maximum of \fIwidth\fP and \fIheight\fP.
-
+.
 .NS
 XcursorImages *XcursorImagesCreate (
 	int \fIsize\fP)
@@ -282,7 +283,7 @@ void XcursorImagesDestroy (
 .NE
 Allocate and free arrays to hold multiple cursor images.  On allocation,
 \fInimage\fP is set to zero.
-
+.
 .NS
 XcursorCursors *XcursorCursorsCreate (
 	Display *\fIdpy\fP,
@@ -293,9 +294,9 @@ void XcursorCursorsDestroy (
 .NE
 Allocate and free arrays to hold multiple cursors.  On allocation,
 \fIncursor\fP is set to zero, \fIref\fP is set to one.
-
+.
 .SS Reading cursors.
-
+.
 .NS
 Cursor XcursorImageLoadCursor(
 	Display *dpy,
@@ -309,7 +310,7 @@ XRenderCreateCursor is used if ARGB is supported on the display, and
 .bP
 XCreatePixmapCursor is used otherwise.
 .RE
-
+.
 .NS
 Cursor XcursorImagesLoadCursor(
 	Display *dpy,
@@ -319,7 +320,7 @@ This provides an interface for creating animated cursors,
 if the \fIimages\fP array contains multiple images, and
 if XcursorSupportsAnim returns true.
 Otherwise, it calls XcursorImageLoadCursor.
-
+.
 .NS
 XcursorCursors *XcursorImagesLoadCursors(
 	Display *dpy,
@@ -332,9 +333,9 @@ and uses XcursorImageLoadCursor to load the corresponding cursor data.
 Normally it returns the resulting array pointer.
 On any failure, it discards the result XcursorCursorsDestroy,
 and returns NULL.
-
+.
 .SS Reading and writing images.
-
+.
 .NS
 XcursorImage *XcursorXcFileLoadImage (XcursorFile *\fIfile\fP, int \fIsize\fP)
 .NS
@@ -354,7 +355,7 @@ XcursorBool XcursorXcFileSave (
 .NE
 These read and write cursors from an XcursorFile handle.  After reading, the
 file pointer will be left at some random place in the file.
-
+.
 .NS
 XcursorImage *XcursorFileLoadImage (FILE *\fIfile\fP, int \fIsize\fP)
 .NS
@@ -378,7 +379,7 @@ XcursorBool XcursorFileSave (
 .NE
 These read and write cursors from a stdio FILE handle.  Writing flushes
 before returning so that any errors should be detected.
-
+.
 .NS
 XcursorImage *XcursorFilenameLoadImage (
 	const char *\fIfilename\fP,
@@ -405,7 +406,7 @@ XcursorBool XcursorFilenameSave (
 	const XcursorImages *\fIimages\fP)
 .NE
 These parallel the stdio FILE interfaces above, but take filenames.
-
+.
 .SS Reading library images
 .NS
 XcursorImage *XcursorLibraryLoadImage (
@@ -440,7 +441,7 @@ XcursorLibraryLoadImage calls XcursorFileLoadImage but
 XcursorLibraryLoadImages calls XcursorFileLoadImages and
 on success calls XcursorImagesSetName to associate \fIname\fP with the result.
 .RE
-
+.
 .SS Library attributes
 .NS
 const char * XcursorLibraryPath (void)
@@ -453,7 +454,7 @@ return that value.
 .bP
 Otherwise, return the compiled-in search path.
 .RE
-
+.
 .NS
 int XcursorLibraryShape (const char *\fIlibrary\fP)
 .NE
@@ -467,9 +468,9 @@ used in an X cursor font).
 .bP
 If not found, return -1.
 .RE
-
+.
 .SS Cursor APIs
-
+.
 .NS
 Cursor XcursorFilenameLoadCursor (
 	Display *\fIdpy\fP,
@@ -480,7 +481,7 @@ XcursorCursors *XcursorFilenameLoadCursors (
 	const char *\fIfile\fP)
 .NE
 These load cursors from the specified file.
-
+.
 .NS
 Cursor XcursorLibraryLoadCursor (
 	Display *\fIdpy\fP,
@@ -492,9 +493,9 @@ XcursorCursors *XcursorLibraryLoadCursors (
 .NE
 These load cursors using the specified library \fIname\fP.  The theme
 comes from the display.
-
+.
 .SS X Cursor Name APIs
-
+.
 .NS
 XcursorImage *XcursorShapeLoadImage (
 	unsigned int \fIshape\fP,
@@ -508,7 +509,7 @@ XcursorImages *XcursorShapeLoadImages (
 .NE
 These map \fIshape\fP to a library name using the standard X cursor names and
 then load the images.
-
+.
 .NS
 Cursor XcursorShapeLoadCursor (
 	Display *\fIdpy\fP,
@@ -519,36 +520,42 @@ XcursorCursors *XcursorShapeLoadCursors (
 	unsigned int \fIshape\fP)
 .NE
 These map \fIshape\fP to a library name and then load the cursors.
-
+.
 .SS Display Information APIs
-
+.
 .NS
 XcursorBool XcursorSupportsARGB (Display *\fIdpy\fP)
 .NE
-Returns whether the display supports ARGB cursors or whether cursors will be
-mapped to a core X cursor.
-
+Returns true if the display supports ARGB cursors.
+Otherwise, cursors will be mapped to a core X cursor.
+.
+.NS
+XcursorBool XcursorSupportsAnim (Display *\fIdpy\fP)
+.NE
+Returns true if the display supports animated cursors.
+Otherwise, cursors will be mapped to a core X cursor.
+.
 .NS
 XcursorBool XcursorSetDefaultSize (Display *\fIdpy\fP, int \fIsize\fP)
 .NE
 Sets the default size for cursors on the specified display. When loading
 cursors, those whose nominal size is closest to this size will be preferred.
-
+.
 .NS
 int XcursorGetDefaultSize (Display *\fIdpy\fP)
 .NE
 Gets the default cursor size.
-
+.
 .NS
 XcursorBool XcursorSetTheme (Display *\fIdpy\fP, const char *\fItheme\fP)
 .NE
 Sets the current theme name.
-
+.
 .NS
 char *XcursorGetTheme (Display *\fIdpy\fP)
 .NE
 Gets the current theme name.
-
+.
 .NS
 XcursorBool XcursorGetThemeCore (
 	Display *\fIdpy\fP)
@@ -559,7 +566,7 @@ XcursorBool XcursorSetThemeCore (
 .NE
 Get or set property which tells Xcurses whether to 
 enable themes for core cursors.
-
+.
 .SH "ENVIRONMENT VARIABLES"
 Environment variables can be used to override resource settings,
 which in turn override compiled-in default values.
@@ -658,7 +665,7 @@ If the environment variable is not given,
 Xcursor tries the \fBXcursor.theme_core\fP resource.
 .IP
 An application can enable or disable themes using XcursorSetThemeCore.
-
+.
 .SH SEE ALSO
 XCreateRenderCursor(__libmansuffix__),
 XCreatePixmapCursor(__libmansuffix__), and
@@ -667,11 +674,11 @@ XCreateFontCursor(__libmansuffix__)
 as well as
 .IP
 https://specifications.freedesktop.org/icon-theme-spec/
-
+.
 .SH RESTRICTIONS
 .B Xcursor
 will probably change radically in the future; weak attempts will be made to
 retain some level of source-file compatibility.
-
+.
 .SH AUTHOR
 Keith Packard

@@ -45,6 +45,7 @@ Xcursor_shadows =			\
 	XcursorShapeLoadImage		\
 	XcursorShapeLoadImages		\
 	XcursorSupportsARGB		\
+	XcursorSupportsAnim		\
 	XcursorXcFileLoad		\
 	XcursorXcFileLoadAllImages	\
 	XcursorXcFileLoadImage		\
