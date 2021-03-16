@@ -80,25 +80,25 @@ by a sequence of chunks.  The table of contents indicates the type, subtype
 and position in the file of each chunk.  The file header looks like:
 .LP
 .in +.2i
-\fImagic\fP\^: CARD32 'Xcur' (0x58, 0x63, 0x75, 0x72)
+\fImagic\fP\^:	CARD32 "Xcur" (0x58, 0x63, 0x75, 0x72)
 .br
-\fIheader\fP\^: CARD32 bytes in this header
+\fIheader\fP\^:	CARD32 bytes in this header
 .br
-\fIversion\fP\^: CARD32 file version number
+\fIversion\fP\^:	CARD32 file version number
 .br
-\fIntoc\fP\^: CARD32 number of toc entries
+\fIntoc\fP\^:	CARD32 number of toc entries
 .br
-\fItoc\fP\^: LISTofTOC table of contents
+\fItoc\fP\^:		LISTofTOC table of contents
 .in -.2i
 .P
 Each table of contents entry looks like:
 .LP
 .in +.2i
-\fItype\fP\^: CARD32 entry type
+\fItype\fP\^:	CARD32 entry type
 .br
-\fIsubtype\fP\^: CARD32 type-specific label - size for images
+\fIsubtype\fP\^:	CARD32 type-specific label - size for images
 .br
-\fIposition\fP\^: CARD32 absolute byte position of table in file
+\fIposition\fP\^:	CARD32 absolute byte position of table in file
 .in -.2i
 .P
 .P
@@ -106,71 +106,97 @@ Each chunk in the file has set of common header fields followed by
 additional type-specific fields:
 .LP
 .in +.2i
-\fIheader\fP\^: CARD32 bytes in chunk header (including type-specific fields)
+\fIheader\fP\^:	CARD32 bytes in chunk header (including type-specific fields)
 .br
-\fItype\fP\^: CARD32 must match type in TOC for this chunk
+\fItype\fP\^:	CARD32 must match type in TOC for this chunk
 .br
-\fIsubtype\fP\^: CARD32 must match subtype in TOC for this chunk
+\fIsubtype\fP\^:	CARD32 must match subtype in TOC for this chunk
 .br
-\fIversion\fP\^: CARD32 version number for this chunk type
+\fIversion\fP\^:	CARD32 version number for this chunk type
 .in -.2i
 .P
 There are currently two chunk types defined for cursor files; comments and
 images.  Comments look like:
 .LP
 .in +.2i
-\fIheader\fP\^: 20 Comment headers are 20 bytes
+\fIheader\fP\^:	20 Comment headers are 20 bytes
 .br
-\fItype\fP\^: 0xfffe0001 Comment type is 0xfffe0001
+\fItype\fP\^:	0xfffe0001 Comment type is 0xfffe0001
 .br
-\fIsubtype\fP\^: { 1 (COPYRIGHT), 2 (LICENSE), 3 (OTHER) }
+\fIsubtype\fP\^:	{ 1 (COPYRIGHT), 2 (LICENSE), 3 (OTHER) }
 .br
-\fIversion\fP\^: 1
+\fIversion\fP\^:	1
 .br
-\fIlength\fP\^: CARD32 byte length of UTF-8 string
+\fIlength\fP\^:	CARD32 byte length of UTF-8 string
 .br
-\fIstring\fP\^: LISTofCARD8 UTF-8 string
+\fIstring\fP\^:	LISTofCARD8 UTF-8 string
 .in -.2i
 .P
 Images look like:
 .LP
 .in +.2i
-\fIheader\fP\^: 36 Image headers are 36 bytes
+\fIheader\fP\^:	36 Image headers are 36 bytes
 .br
-\fItype\fP\^: 0xfffd0002 Image type is 0xfffd0002
+\fItype\fP\^:	0xfffd0002 Image type is 0xfffd0002
 .br
-\fIsubtype\fP\^: CARD32 Image subtype is the nominal size
+\fIsubtype\fP\^:	CARD32 Image subtype is the nominal size
 .br
-\fIversion\fP\^: 1
+\fIversion\fP\^:	1
 .br
-\fIwidth\fP\^: CARD32 Must be less than or equal to 0x7fff
+\fIwidth\fP\^:	CARD32 Must be less than or equal to 0x7fff
 .br
-\fIheight\fP\^: CARD32 Must be less than or equal to 0x7fff
+\fIheight\fP\^:	CARD32 Must be less than or equal to 0x7fff
 .br
-\fIxhot\fP\^: CARD32 Must be less than or equal to width
+\fIxhot\fP\^:	CARD32 Must be less than or equal to width
 .br
-\fIyhot\fP\^: CARD32 Must be less than or equal to height
+\fIyhot\fP\^:	CARD32 Must be less than or equal to height
 .br
-\fIdelay\fP\^: CARD32 Delay between animation frames in milliseconds
+\fIdelay\fP\^:	CARD32 Delay between animation frames in milliseconds
 .br
-\fIpixels\fP\^: LISTofCARD32 Packed ARGB format pixels
+\fIpixels\fP\^:	LISTofCARD32 Packed ARGB format pixels
 .in -.2i
 .
 .SS THEMES
 Xcursor (mostly) follows the freedesktop.org spec for theming icons.  The
-default search path it uses is __XCURSORPATH__.
+default search path it uses is
+.sp
+.RS
+__XCURSORPATH__
+.RE
+.PP
 Within each of these directories,
-it searches for a directory using the theme name.
+it searches for a directory using the theme name:
+.bP
 Within the theme directory,
 it looks for cursor files in the \*(``cursors\*('' subdirectory.
-It uses the first cursor file found along  the path.
+.IP
+Xcursor looks for a specific file,
+which must be one of the cursor \fIshape\fP names, 
+e.g., as used in XcursorLibraryLoadImage or XcursorLibraryShape.
+.bP
+If it finds no matching cursor file in the \*(``cursors\*('' subdirectory,
+Xcursor next looks for an \*(``index.theme\*('' file
+in each theme directory to look for inherited themes.
+Those are lines in this format:
+.sp
+.RS
+Inherits = \fItheme-name\fP
 .PP
-If necessary, Xcursor also looks for a "index.theme" file in each theme
-directory to find inherited themes and searches along the path for those
-themes as well.
+Xcursor uses the first inherited \fItheme-name\fP,
+ignoring others which may exist in a given \*(``index.theme\*('' file.
+If it finds an inherited them, Xcursor searches along the path to use
+those as well.
+Xcursor ignores other \fIkeys\fP in the \*(``index.theme\*('' file,
+including \*(``Name\*('' (i.e., the name which a graphical
+application may use as the \fIpresentation name\fP).
+.RE
 .PP
-If no theme is set, or if no cursor is found for the specified theme,
+If no theme is set, or if no cursor is found for the specified theme
+anywhere along the path,
 Xcursor checks the \*(``default\*('' theme.
+.PP
+When Xcursor finds a cursor file, it stops searching.
+It always uses the first cursor file found while searching along the path.
 .
 .SH DATATYPES
 .
@@ -667,9 +693,11 @@ Xcursor tries the \fBXcursor.theme_core\fP resource.
 An application can enable or disable themes using XcursorSetThemeCore.
 .
 .SH SEE ALSO
+.na
 XCreateRenderCursor(__libmansuffix__),
 XCreatePixmapCursor(__libmansuffix__), and
 XCreateFontCursor(__libmansuffix__)
+.ad
 .PP
 as well as
 .IP
