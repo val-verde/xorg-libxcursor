@@ -546,6 +546,39 @@ XcursorCursors *XcursorShapeLoadCursors (
 .NE
 These map \fIshape\fP to a library name and then load the cursors.
 .
+.SS X Cursor Comment APIs
+.NS
+XcursorComment *XcursorCommentCreate (
+	XcursorUInt comment_type,
+	int length)
+.NE
+XcursorXcFileLoad uses this function to allocate an XcursorComment
+structure for a single cursor.
+The \fIcomment_type\fP parameter is used as the \fIsubtype\fP field,
+e.g., COPYRIGHT.
+The \fIlength\fP is the number of bytes to allocate for the comment text.
+.
+.NS
+void XcursorCommentDestroy(
+	XcursorComment *comment)
+.NE
+Deallocates the given XcursorComment structure.
+.
+.NS
+XcursorComments * XcursorCommentsCreate (
+	int size)
+.NE
+XcursorXcFileLoad uses this function to allocate an index of
+XcursorComment structure pointers.
+The \fIsize\fP parameter tells it how many pointers will be in the index.
+.
+.NS
+void XcursorCommentsDestroy (
+	XcursorComments *comments)
+.NE
+Deallocates the given XcursorComments structure
+as well as the XcursorComment structures which it points to.
+.
 .SS Animated Cursors
 .NS
 XcursorAnimate * XcursorAnimateCreate (

@@ -8,6 +8,10 @@ Xcursor_shadows =			\
 	XcursorAnimateCreate		\
 	XcursorAnimateDestroy		\
 	XcursorAnimateNext		\
+	XcursorCommentCreate		\
+	XcursorCommentDestroy		\
+	XcursorCommentsCreate		\
+	XcursorCommentsDestroy		\
 	XcursorCursorsCreate		\
 	XcursorCursorsDestroy		\
 	XcursorFileLoad			\
