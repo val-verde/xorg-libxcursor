@@ -33,17 +33,21 @@ Xcursor_shadows =			\
 	XcursorGetThemeCore		\
 	XcursorImageCreate		\
 	XcursorImageDestroy		\
+	XcursorImageHash		\
 	XcursorImageLoadCursor		\
 	XcursorImagesCreate		\
 	XcursorImagesDestroy		\
 	XcursorImagesLoadCursor		\
 	XcursorImagesLoadCursors	\
+	XcursorImagesSetName		\
 	XcursorLibraryLoadCursor	\
 	XcursorLibraryLoadCursors	\
 	XcursorLibraryLoadImage		\
 	XcursorLibraryLoadImages	\
 	XcursorLibraryPath		\
 	XcursorLibraryShape		\
+	XcursorNoticeCreateBitmap	\
+	XcursorNoticePutBitmap		\
 	XcursorSetDefaultSize		\
 	XcursorSetTheme			\
 	XcursorSetThemeCore		\
@@ -53,6 +57,8 @@ Xcursor_shadows =			\
 	XcursorShapeLoadImages		\
 	XcursorSupportsARGB		\
 	XcursorSupportsAnim		\
+	XcursorTryShapeBitmapCursor	\
+	XcursorTryShapeCursor		\
 	XcursorXcFileLoad		\
 	XcursorXcFileLoadAllImages	\
 	XcursorXcFileLoadImage		\

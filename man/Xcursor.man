@@ -398,14 +398,14 @@ These parallel the stdio FILE interfaces above, but take filenames.
 .SS Reading library images
 .NS
 XcursorImage *XcursorLibraryLoadImage (
-	const char *\fIname\fP,
-	const char *\fItheme\fP,
-	int \fIsize\fP)
+	const char	*\fIname\fP,
+	const char	*\fItheme\fP,
+	int		 \fIsize\fP)
 .NS
 XcursorImages *XcursorLibraryLoadImages (
-	const char *\fIname\fP,
-	const char *\fItheme\fP,
-	int \fIsize\fP)
+	const char	*\fIname\fP,
+	const char	*\fItheme\fP,
+	int		 \fIsize\fP)
 .NE
 These search the library path, loading the first file found
 of the desired \fIsize\fP,
@@ -426,8 +426,9 @@ The two functions differ by more than the number of images loaded:
 .bP
 XcursorLibraryLoadImage calls XcursorFileLoadImage but
 .bP
-XcursorLibraryLoadImages calls XcursorFileLoadImages and
-on success calls XcursorImagesSetName to associate \fIname\fP with the result.
+XcursorLibraryLoadImages calls XcursorFileLoadImages,
+and (on success)
+it calls XcursorImagesSetName to associate \fIname\fP with the result.
 .RE
 .
 .SS Library attributes
@@ -604,6 +605,90 @@ incrementing the sequence number to prepare for the next call.
 .IP
 The caller is responsible for displaying the series of Cursor images.
 Xcursor does not do that.
+.
+.SS Glyph Cursor APIs
+The X11 XCreateFontCursor and XCreateGlyphCursor functions use
+this part of the API to extend the X core cursors feature to use themes.
+.NS
+void XcursorImageHash (
+	XImage		*image,
+	unsigned char	 hash[XCURSOR_BITMAP_HASH_SIZE])
+.NE
+Compute a hash of the image,
+to display when the environment variable XCURSOR_DISCOVER is set.
+.
+.NS
+void XcursorImagesSetName (
+	XcursorImages	*images,
+	const char	*name)
+.NE
+Associates the given name with the images.
+.
+.NS
+void XcursorNoticeCreateBitmap (
+	Display		*dpy,
+	Pixmap		 pid,
+	unsigned int	 width,
+	unsigned int	 height)
+.NE
+Check if the display supports either ARGB or themes,
+and also if the image size fits within the maximum cursor size (64 pixels).
+If so, create a bitmap of the specified size,
+and cache the result in Xcursor,
+identifying it with the Pixmap-id (pid) value.
+.
+.NS
+void XcursorNoticePutBitmap (
+	Display		*dpy,
+	Drawable	draw,
+	XImage		*image)
+.NE
+Update the image contents in the bitmap specified by the draw value
+(a Pixmap-id).
+The bitmap must have been created by XcursorNoticeCreateBitmap.
+.
+.NS
+Cursor XcursorTryShapeBitmapCursor (
+	Display		*dpy,
+	Pixmap		 source,
+	Pixmap		 mask,
+	XColor		*foreground,
+	XColor		*background,
+	unsigned int	 x,
+	unsigned int	 y)
+.NE
+If the display supports either ARGB or themes,
+try to load a cursor into Xcursor's cache
+using the source parameter as a Pixmap-id.
+The source may no longer be in the cache.
+Xcursor uses the hash value to identify the desired image.
+.
+.NS
+Cursor XcursorTryShapeCursor (
+	Display		*dpy,
+	Font		 source_font,
+	Font		 mask_font,
+	unsigned int	 source_char,
+	unsigned int	 mask_char,
+	XColor _Xconst	*foreground,
+	XColor _Xconst	*background)
+.NE
+If the display supports either ARGB or themes,
+try to load a cursor into Xcursor's cache
+using the source_char parameter as a shape.
+Using
+.RS
+.bP
+the default size from XcursorGetDefaultSize,
+.bP
+the default theme from XcursorGetTheme, and
+.bP
+the source_char parameter as a shape,
+.RE
+.IP
+Xcursor calls XcursorShapeLoadImages to load the cursor images.
+If successful, Xcursor uses XcursorImagesLoadCursor
+to load the cursor information.
 .
 .SS Display Information APIs
 .
