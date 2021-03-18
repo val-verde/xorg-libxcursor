@@ -71,7 +71,7 @@
 .TH XCURSOR __libmansuffix__ __xorgversion__ "X Version 11"
 .hy 0
 .SH NAME
-XCURSOR \- Cursor management library
+Xcursor \- Cursor management library
 .
 .SH SYNOPSIS
 .nf
@@ -198,7 +198,7 @@ Inherits = \fItheme-name\fP
 .PP
 Xcursor uses the first inherited \fItheme-name\fP,
 ignoring others which may exist in a given \*(``index.theme\*('' file.
-If it finds an inherited them, Xcursor searches along the path to use
+If it finds an inherited theme, Xcursor searches along the path to use
 that as well.
 Xcursor ignores other \fIkeys\fP in the \*(``index.theme\*('' file,
 including \*(``Name\*('' (i.e., the name which a graphical
