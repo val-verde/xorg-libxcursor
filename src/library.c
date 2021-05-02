@@ -32,6 +32,11 @@
 #define XCURSORPATH "~/.local/share/icons:~/.icons:/usr/share/icons:/usr/share/pixmaps:"ICONDIR
 #endif
 
+typedef struct XcursorInherit {
+    char	*line;
+    const char	*theme;
+} XcursorInherit;
+
 const char *
 XcursorLibraryPath (void)
 {
@@ -206,16 +211,17 @@ _XcursorThemeInherits (const char *full)
 }
 
 #define XCURSOR_SCAN_CORE   ((FILE *) 1)
+#define MAX_INHERITS_DEPTH  32
 
 static FILE *
 XcursorScanTheme (const char *theme, const char *name)
 {
-    FILE	*f = NULL;
-    char	*full;
-    char	*dir;
-    const char  *path;
-    char	*inherits = NULL;
-    const char	*i;
+    FILE		*f = NULL;
+    char		*full;
+    char		*dir;
+    const char		*path;
+    XcursorInherit	 inherits[MAX_INHERITS_DEPTH + 1];
+    int			 d;
 
     if (!theme || !name)
         return NULL;
@@ -228,46 +234,77 @@ XcursorScanTheme (const char *theme, const char *name)
      */
     if (!strcmp (theme, XCURSOR_CORE_THEME) && XcursorLibraryShape (name) >= 0)
 	return XCURSOR_SCAN_CORE;
-    /*
-     * Scan this theme
-     */
-    for (path = XcursorLibraryPath ();
-	 path && f == NULL;
-	 path = _XcursorNextPath (path))
+
+    memset (inherits, 0, sizeof (inherits));
+
+    d = 0;
+    inherits[d].theme = theme;
+
+    while (f == NULL && d >= 0 && inherits[d].theme != NULL)
     {
-	dir = _XcursorBuildThemeDir (path, theme);
-	if (dir)
+	/*
+	 * Scan this theme
+	 */
+	for (path = XcursorLibraryPath ();
+	     path && f == NULL;
+	     path = _XcursorNextPath (path))
 	{
-	    full = _XcursorBuildFullname (dir, "cursors", name);
-	    if (full)
+	    dir = _XcursorBuildThemeDir (path, inherits[d].theme);
+	    if (dir)
 	    {
-		f = fopen (full, "r");
-		free (full);
-	    }
-	    if (!f && !inherits)
-	    {
-		full = _XcursorBuildFullname (dir, "", "index.theme");
+		full = _XcursorBuildFullname (dir, "cursors", name);
 		if (full)
 		{
-		    inherits = _XcursorThemeInherits (full);
+		    f = fopen (full, "r");
 		    free (full);
 		}
+		if (!f && inherits[d + 1].line == NULL)
+		{
+		    if (d + 1 >= MAX_INHERITS_DEPTH)
+		    {
+			free (dir);
+			goto cleanup;
+		    }
+		    full = _XcursorBuildFullname (dir, "", "index.theme");
+		    if (full)
+		    {
+			inherits[d + 1].line = _XcursorThemeInherits (full);
+			inherits[d + 1].theme = inherits[d + 1].line;
+			free (full);
+		    }
+		}
+		free (dir);
 	    }
-	    free (dir);
 	}
+
+	if (inherits[d + 1].line == NULL)
+	{
+	    if (d == 0)
+		inherits[d].theme = NULL;
+	    else
+	    {
+		inherits[d].theme = _XcursorNextPath (inherits[d].theme);
+		if (inherits[d].theme == NULL)
+		{
+		    free (inherits[d].line);
+		    inherits[d--].line = NULL;
+		}
+	    }
+	}
+	else
+	    d++;
+
+	/*
+	 * Detect and break self reference loop early on.
+	 */
+	if (inherits[d].theme != NULL && strcmp (inherits[d].theme, theme) == 0)
+	    break;
     }
-    /*
-     * Recurse to scan inherited themes
-     */
-    for (i = inherits; i && f == NULL; i = _XcursorNextPath (i))
-    {
-        if (strcmp(i, theme) != 0)
-            f = XcursorScanTheme (i, name);
-        else
-            printf("Not calling XcursorScanTheme because of circular dependency: %s. %s", i, name);
-    }
-    if (inherits != NULL)
-	free (inherits);
+
+cleanup:
+    for (d = 1; d <= MAX_INHERITS_DEPTH; d++)
+	free (inherits[d].line);
+
     return f;
 }
 
