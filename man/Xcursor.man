@@ -88,24 +88,32 @@ the library automatically picks the best size.
 .
 .SH FUNCTIONAL OVERVIEW
 Xcursor is built in a couple of layers; at the bottom layer is code which
-can load cursor images from files.  Above that is a layer which locates
-cursor files based on the library path and theme.  At the top is a layer
+can load cursor images from files.
+Above that is a layer which locates
+cursor files based on the library path and theme.
+At the top is a layer
 which builds cursors either out of an image loaded from a file or one of the
-standard X cursors.  When using images loaded from files, Xcursor prefers
-to use the Render extension CreateCursor request if supported by the X
-server.  Where not supported, Xcursor maps the cursor image to a standard X
+standard X cursors.
+When using images loaded from files, Xcursor prefers
+to use the Render extension CreateCursor request if supported by the X server.
+Where not supported, Xcursor maps the cursor image to a standard X
 cursor and uses the core CreateCursor request.
 .
 .SS CURSOR FILES
-Xcursor defines a new format for cursors on disk.  Each file holds
-one or more cursor images.  Each cursor image is tagged with a nominal size
-so that the best size can be selected automatically.  Multiple cursors of
+Xcursor defines a new format for cursors on disk.
+Each file holds
+one or more cursor images.
+Each cursor image is tagged with a nominal size
+so that the best size can be selected automatically.
+Multiple cursors of
 the same nominal size can be loaded together; applications are expected to
 use them as an animated sequence.
 .P
 Cursor files are stored as a header containing a table of contents followed
-by a sequence of chunks.  The table of contents indicates the type, subtype
-and position in the file of each chunk.  The file header looks like:
+by a sequence of chunks.
+The table of contents indicates the type, subtype
+and position in the file of each chunk.
+The file header looks like:
 .LP
 .QS
 \fImagic\fP\^:	CARD32 "Xcur" (0x58, 0x63, 0x75, 0x72)
@@ -135,7 +143,8 @@ additional type-specific fields:
 .QE
 .P
 There are currently two chunk types defined for cursor files; comments and
-images.  Comments look like:
+images.
+Comments look like:
 .LP
 .QS
 \fIheader\fP\^:	20 Comment headers are 20 bytes
@@ -171,8 +180,8 @@ Images look like:
 .QE
 .
 .SS THEMES
-Xcursor (mostly) follows the freedesktop.org spec for theming icons.  The
-default search path it uses is
+Xcursor (mostly) follows the freedesktop.org spec for theming icons.
+The default search path it uses is
 .sp
 .RS
 __XCURSORPATH__
@@ -203,6 +212,13 @@ that as well.
 Xcursor ignores other \fIkeys\fP in the \*(``index.theme\*('' file,
 including \*(``Name\*('' (i.e., the name which a graphical
 application may use as the \fIpresentation name\fP).
+.PP
+More than one \fItheme-name\fP may be listed on the \fBInherits=\fP line.
+The freedesktop.org spec states that list items are separated by commas.
+Xcursor also accepts semicolon,
+but translates both to colon when searching the path.
+Xcursor expects only one \fBInherits=\fP line;
+the freedesktop.org spec is unclear whether multiple keys are allowed.
 .RE
 .PP
 If no theme is set, or if no cursor is found for the specified theme
@@ -216,7 +232,8 @@ It always uses the first cursor file found while searching along the path.
 .
 .TP
 .B XcursorImage
-holds a single cursor image in memory.  Each pixel in the cursor is a 32-bit
+holds a single cursor image in memory.
+Each pixel in the cursor is a 32-bit
 value containing ARGB with A in the high byte.
 .sp
 .QC
@@ -245,8 +262,9 @@ typedef struct _XcursorImages {
 .
 .TP
 .B XcursorCursors
-Holds multiple Cursor objects.  They're all freed when the XcursorCursors is
-freed.  These are reference counted so that multiple XcursorAnimate
+Holds multiple Cursor objects.
+They are all freed when the XcursorCursors is freed.
+These are reference counted so that multiple XcursorAnimate
 structures can use the same XcursorCursors.
 .sp
 .QC
@@ -260,7 +278,8 @@ typedef struct _XcursorCursors {
 .
 .TP
 .B XcursorAnimate
-References a set of cursors and a sequence within that set.  Multiple
+References a set of cursors and a sequence within that set.
+Multiple
 XcursorAnimate structures may reference the same XcursorCursors; each
 holds a reference which is removed when the XcursorAnimate is freed.
 .sp
@@ -273,9 +292,10 @@ typedef struct _XcursorAnimate {
 .
 .TP
 .B XcursorFile
-Xcursor provides an abstract API for accessing the file data.  Xcursor
-provides a stdio implementation of this abstract API; applications
-are free to create additional implementations.  These functions
+Xcursor provides an abstract API for accessing the file data.
+Xcursor provides a stdio implementation of this abstract API; applications
+are free to create additional implementations.
+These functions
 parallel the stdio functions in return value and expected argument values;
 the read and write functions flip the arguments around to match the POSIX
 versions.
@@ -301,8 +321,8 @@ XcursorImage *XcursorImageCreate (
 void XcursorImageDestroy (
 	XcursorImage 	*\fIimage\fP)
 .PE
-Allocate and free images.  On allocation, the hotspot and the pixels are
-left uninitialized.
+Allocate and free images.
+On allocation, the hotspot and the pixels are left uninitialized.
 The size is set to the maximum of \fIwidth\fP and \fIheight\fP.
 .
 .PS
@@ -312,8 +332,8 @@ XcursorImages *XcursorImagesCreate (
 void XcursorImagesDestroy (
 	XcursorImages 	*\fIimages\fP)
 .PE
-Allocate and free arrays to hold multiple cursor images.  On allocation,
-\fInimage\fP is set to zero.
+Allocate and free arrays to hold multiple cursor images.
+On allocation, \fInimage\fP is set to zero.
 .
 .PS
 XcursorCursors *XcursorCursorsCreate (
@@ -323,8 +343,8 @@ XcursorCursors *XcursorCursorsCreate (
 void XcursorCursorsDestroy (
 	XcursorCursors 	*\fIcursors\fP)
 .PE
-Allocate and free arrays to hold multiple cursors.  On allocation,
-\fIncursor\fP is set to zero, \fIref\fP is set to one.
+Allocate and free arrays to hold multiple cursors.
+On allocation, \fIncursor\fP is set to zero, \fIref\fP is set to one.
 .
 .
 .SS Reading and writing images.
@@ -351,8 +371,8 @@ XcursorBool XcursorXcFileSave (
 	const XcursorComments 	*\fIcomments\fP,
 	const XcursorImages 	*\fIimages\fP)
 .PE
-These read and write cursors from an XcursorFile handle.  After reading, the
-file pointer will be left at some random place in the file.
+These read and write cursors from an XcursorFile handle.
+After reading, the file pointer will be left at some random place in the file.
 .
 .PS
 XcursorImage *XcursorFileLoadImage (
@@ -380,8 +400,8 @@ XcursorBool XcursorFileSave (
 	const XcursorComments 	*\fIcomments\fP,
 	const XcursorImages 	*\fIimages\fP)
 .PE
-These read and write cursors from a stdio FILE handle.  Writing flushes
-before returning so that any errors should be detected.
+These read and write cursors from a stdio FILE handle.
+Writing flushes before returning so that any errors should be detected.
 .
 .PS
 XcursorImage *XcursorFilenameLoadImage (
@@ -728,8 +748,9 @@ XcursorBool XcursorSetDefaultSize (
 	Display 	*\fIdpy\fP,
 	int 	 \fIsize\fP)
 .PE
-Sets the default size for cursors on the specified display. When loading
-cursors, those whose nominal size is closest to this size will be preferred.
+Sets the default size for cursors on the specified display.
+When loading cursors,
+those whose nominal size is closest to this size will be preferred.
 .
 .PS
 int XcursorGetDefaultSize (
@@ -869,6 +890,8 @@ XCreateFontCursor(__libmansuffix__)
 .PP
 as well as
 .IP
+\fIIcon Theme Specification\fP
+.br
 https://specifications.freedesktop.org/icon-theme-spec/
 .
 .SH RESTRICTIONS
