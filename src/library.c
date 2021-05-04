@@ -263,7 +263,7 @@ XcursorScanTheme (const char *theme, const char *name)
 		    if (d + 1 >= MAX_INHERITS_DEPTH)
 		    {
 			free (dir);
-			goto cleanup;
+			goto finish;
 		    }
 		    full = _XcursorBuildFullname (dir, "", "index.theme");
 		    if (full)
@@ -277,22 +277,17 @@ XcursorScanTheme (const char *theme, const char *name)
 	    }
 	}
 
-	if (inherits[d + 1].line == NULL)
+	d++;
+	while (d > 0 && inherits[d].theme == NULL)
 	{
-	    if (d == 0)
+	    free (inherits[d].line);
+	    inherits[d].line = NULL;
+
+	    if (--d == 0)
 		inherits[d].theme = NULL;
 	    else
-	    {
 		inherits[d].theme = _XcursorNextPath (inherits[d].theme);
-		if (inherits[d].theme == NULL)
-		{
-		    free (inherits[d].line);
-		    inherits[d--].line = NULL;
-		}
-	    }
 	}
-	else
-	    d++;
 
 	/*
 	 * Detect and break self reference loop early on.
@@ -301,7 +296,7 @@ XcursorScanTheme (const char *theme, const char *name)
 	    break;
     }
 
-cleanup:
+finish:
     for (d = 1; d <= MAX_INHERITS_DEPTH; d++)
 	free (inherits[d].line);
 
