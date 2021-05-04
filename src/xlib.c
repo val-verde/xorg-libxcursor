@@ -32,7 +32,6 @@ _XcursorFontIsCursor (Display *dpy, Font font)
     XcursorDisplayInfo	*info;
     XcursorBool		ret;
     XFontStruct		*fs;
-    int			n;
     Atom		cursor;
 
     if (!dpy || !font)
@@ -57,6 +56,7 @@ _XcursorFontIsCursor (Display *dpy, Font font)
     fs = XQueryFont (dpy, font);
     if (fs)
     {
+	int n;
 	cursor = XInternAtom (dpy, "cursor", False);
 	for (n = 0; n < fs->n_properties; n++)
 	    if (fs->properties[n].name == XA_FONT)

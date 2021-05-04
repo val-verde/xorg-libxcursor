@@ -655,7 +655,6 @@ XcursorXcFileLoadImages (XcursorFile *file, int size)
     int			nsize;
     XcursorImages	*images;
     int			n;
-    int			toc;
 
     if (!file || size < 0)
 	return NULL;
@@ -676,7 +675,7 @@ XcursorXcFileLoadImages (XcursorFile *file, int size)
     }
     for (n = 0; n < nsize; n++)
     {
-	toc = _XcursorFindImageToc (fileHeader, bestSize, n);
+	int toc = _XcursorFindImageToc (fileHeader, bestSize, n);
 	if (toc < 0)
 	    break;
 	images->images[images->nimage] = _XcursorReadImage (file, fileHeader,

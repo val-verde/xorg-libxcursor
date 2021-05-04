@@ -72,7 +72,7 @@ _XcursorCloseDisplay (Display *dpy, XExtCodes *codes)
 static int
 _XcursorDefaultParseBool (char *v)
 {
-    char    c0, c1;
+    char    c0;
 
     c0 = *v;
     if (isupper ((int)c0))
@@ -83,7 +83,7 @@ _XcursorDefaultParseBool (char *v)
 	return 0;
     if (c0 == 'o')
     {
-	c1 = v[1];
+	char c1 = v[1];
 	if (isupper ((int)c1))
 	    c1 = (char) tolower (c1);
 	if (c1 == 'n')

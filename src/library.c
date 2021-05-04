@@ -180,7 +180,6 @@ _XcursorThemeInherits (const char *full)
 	    if (!strncmp (line, "Inherits", 8))
 	    {
 		char    *l = line + 8;
-		char    *r;
 		while (*l == ' ') l++;
 		if (*l != '=') continue;
 		l++;
@@ -188,7 +187,7 @@ _XcursorThemeInherits (const char *full)
 		result = malloc (strlen (l) + 1);
 		if (result)
 		{
-		    r = result;
+		    char *r = result;
 		    while (*l)
 		    {
 			while (XcursorSep(*l) || XcursorWhite (*l)) l++;
@@ -561,15 +560,13 @@ int
 XcursorLibraryShape (const char *library)
 {
     int	low, high;
-    int	mid;
-    int	c;
 
     low = 0;
     high = NUM_STANDARD_NAMES - 1;
     while (low < high - 1)
     {
-	mid = (low + high) >> 1;
-	c = strcmp (library, STANDARD_NAME (mid));
+	int mid = (low + high) >> 1;
+	int c = strcmp (library, STANDARD_NAME (mid));
 	if (c == 0)
 	    return (mid << 1);
 	if (c > 0)
