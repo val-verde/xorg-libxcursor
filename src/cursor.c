@@ -91,6 +91,7 @@ XcursorAnimateNext (XcursorAnimate *animate)
     return cursor;
 }
 
+#if RENDER_MAJOR > 0 || RENDER_MINOR >= 5
 static int
 nativeByteOrder (void)
 {
@@ -98,6 +99,7 @@ nativeByteOrder (void)
 
     return (*((char *) &x) == 1) ? LSBFirst : MSBFirst;
 }
+#endif
 
 static XcursorUInt
 _XcursorPixelBrightness (XcursorPixel p)

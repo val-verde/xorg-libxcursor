@@ -87,7 +87,7 @@ _XcursorBuildThemeDir (const char *dir, const char *theme)
     int		    len;
 
     if (!dir || !theme)
-        return NULL;
+	return NULL;
 
     colon = strchr (dir, ':');
     if (!colon)
@@ -137,7 +137,7 @@ _XcursorBuildFullname (const char *dir, const char *subdir, const char *file)
     char    *full;
 
     if (!dir || !subdir || !file)
-        return NULL;
+	return NULL;
 
     full = malloc (strlen (dir) + 1 + strlen (subdir) + 1 + strlen (file) + 1);
     if (!full)
@@ -170,7 +170,7 @@ _XcursorThemeInherits (const char *full)
     FILE    *f;
 
     if (!full)
-        return NULL;
+	return NULL;
 
     f = fopen (full, "r");
     if (f)
@@ -223,7 +223,7 @@ XcursorScanTheme (const char *theme, const char *name)
     int			 d;
 
     if (!theme || !name)
-        return NULL;
+	return NULL;
 
     /*
      * XCURSOR_CORE_THEME is a magic name; cursors from the core set
@@ -309,15 +309,13 @@ XcursorLibraryLoadImage (const char *file, const char *theme, int size)
     XcursorImage    *image = NULL;
 
     if (!file)
-        return NULL;
+	return NULL;
 
     if (theme)
 	f = XcursorScanTheme (theme, file);
     if (!f)
 	f = XcursorScanTheme ("default", file);
-    if (f == XCURSOR_SCAN_CORE)
-	return NULL;
-    if (f)
+    if (f != NULL && f != XCURSOR_SCAN_CORE)
     {
 	image = XcursorFileLoadImage (f, size);
 	fclose (f);
@@ -332,15 +330,13 @@ XcursorLibraryLoadImages (const char *file, const char *theme, int size)
     XcursorImages   *images = NULL;
 
     if (!file)
-        return NULL;
+	return NULL;
 
     if (theme)
 	f = XcursorScanTheme (theme, file);
     if (!f)
 	f = XcursorScanTheme ("default", file);
-    if (f == XCURSOR_SCAN_CORE)
-	return NULL;
-    if (f)
+    if (f != NULL && f != XCURSOR_SCAN_CORE)
     {
 	images = XcursorFileLoadImages (f, size);
 	if (images)
@@ -359,7 +355,7 @@ XcursorLibraryLoadCursor (Display *dpy, const char *file)
     Cursor	    cursor;
 
     if (!file)
-        return 0;
+	return 0;
 
     if (!images)
     {
@@ -387,7 +383,7 @@ XcursorLibraryLoadCursors (Display *dpy, const char *file)
     XcursorCursors  *cursors;
 
     if (!file)
-        return NULL;
+	return NULL;
 
     if (!images)
     {
