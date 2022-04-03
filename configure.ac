@@ -78,7 +78,7 @@ AC_ARG_WITH(cursorpath,
         [XCURSORPATH=$DEF_CURSORPATH])
 AC_SUBST([XCURSORPATH])
 
-# Obtain compiler/linker options for depedencies
+# Obtain compiler/linker options for dependencies
 PKG_CHECK_MODULES(XCURSOR, xrender >= 0.8.2 xfixes x11 fixesproto)
 AC_DEFINE(HAVE_XFIXES, 1, [Define to 1 if you have Xfixes])
 
